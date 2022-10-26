@@ -1,6 +1,6 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
 # Fecha de creación: 13/10/2022 11:30 am
-# Última modificación: 26/10/2022 03:43 pm
+# Última modificación: 26/10/2022 03:58 pm
 # Versión: 3.10.8
 
 # Importar libreías
@@ -44,6 +44,5 @@ def importarAstronomos(astroTotales):
     return diccAstros
 
 # Para comprobar que sirve
-
 diccAstros = importarAstronomos(10)
 print(diccAstros)
