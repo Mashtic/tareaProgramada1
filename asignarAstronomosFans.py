@@ -50,4 +50,5 @@ def asignarAstroFans(pVisitantes, pAstronomos):
         visitante[2] = asignarAstros(numProvincia, codAstros)
     return pVisitantes
 
-print(asignarAstroFans(visitantes, astronomos))
+# Prueba
+#print(asignarAstroFans(visitantes, astronomos))

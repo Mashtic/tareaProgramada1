@@ -60,6 +60,6 @@ def crearDiccAstronomos(cantAstros): # 1 <= cantAstros <= 50
     return diccAstros
 
 # Para comprobar que sirve (solo imprime llaves)
-diccAstro = crearDiccAstronomos(49)
-for indice, llave in enumerate(diccAstro):
-    print(indice+1, llave, "\n")
+#diccAstro = crearDiccAstronomos(49)
+#for indice, llave in enumerate(diccAstro):
+   # print(indice+1, llave, "\n")
