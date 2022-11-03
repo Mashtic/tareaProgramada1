@@ -9,8 +9,14 @@ import requests
 
 # 1. Función importar astrónomos
 def retornarHtml(pLink):
+    """
+    Funcionalidad: se obtiene el código HTML de la página
+    Entradas: pLink (str)
+    Salidas: codHtml (str)
+    """
     peticion = requests.get(pLink).text
     codHtml = BeautifulSoup(peticion, 'lxml')
+    print(type(codHtml))
     return codHtml
 
 def obtieneAnno(pStringAnno):

@@ -1,23 +1,10 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
 # Fecha de creación: 02/11/2022 07:45 pm
-# Última modificación: 02/11/2022 08:15 pm
+# Última modificación: 03/11/2022 02:10 pm
 # Versión: 3.10.8
 
 # Importar módulos
 from random import *
-
-# Variable prueba
-visitantes = [[305430092, ("Ian", "Coto", "Soto"), [], [], True], [987654321, ("Pedro", "Moto", "Zote"), [], [], True], 
-[696969699, ("Loco", "Es", "Poco"), [], [], True]]
-
-astronomos = {"T624":["Teodoro Ardilla"],"S1986":["Sopapo De Milán"], "A211":["Agua Ardiente"], 
-"A432":["Arjona Ricardo"], "K4311":["Kyle"], "P892":["Pedro Picapiedra"], "S123":["Soki 69"], "R89":["Richard VI"]}
-
-"""
-Faltan comentarios
-Falta validaciones (se espera hasta tener todo listo para 
-pensar cómo hacerla la GUI de tkinter)
-"""
 
 # Funciones auxiliares
 def obtenerListasLlaves(pDicc):
@@ -33,22 +20,39 @@ def obtenerListasLlaves(pDicc):
 
 # Función 4. Asignar astrónomos fans
 def asignarAstros(pNumProvincia, codAstros):
+    """
+    Funcionalidad: agrega una cantidad de códigos de astrónomos 
+                   equivalente a pNumProvincia y los devuelve en lista
+    Entradas: pNumProvincia (int)
+              codAstros (list): lista de códigos de astrónomos
+    Salidas: astrosFans (list)
+    """
     astrosCant = 1
     astrosFans = []
-    if pNumProvincia > len(codAstros):
+    if pNumProvincia > len(codAstros): # Si pNumProvincia es mayor a codAstros,
+                                       # se agrega una cantidad equivalente a los
+                                       # codAstros disponibles
         pNumProvincia = len(codAstros)
     while pNumProvincia >= astrosCant:
-        posAstro = randint(0, len(codAstros)-1)
+        posAstro = randint(0, len(codAstros)-1) # Para hacerlo de manera aleatoria
         astrosFans.append(codAstros[posAstro])
-        codAstros.pop(posAstro)
+        codAstros.pop(posAstro) # Para no volver a elegirlo
         astrosCant += 1
     return astrosFans
 
 def asignarAstroFans(pVisitantes, pAstronomos):
+    """
+    Funcionalidad: se agrega una cantidad de astrónomos equivalente al
+                   número inicial de la cédula de cada visitante 
+    Entradas: pVisitantes (list)
+              pAstronomos (dict)
+    Salidas: pVisitantes (list) (actualizada)
+    """
     for visitante in pVisitantes:
-        numProvincia = visitante[0]//100000000
         codAstros = obtenerListasLlaves(pAstronomos)
-        visitante[2] = asignarAstros(numProvincia, codAstros)
+        visitante[2] = asignarAstros(visitante[0]//100000000, codAstros) # Se le asinga un dict
+                                                                         # con códigos a cada 
+                                                                         # visitante
     return pVisitantes
 
 # Prueba
