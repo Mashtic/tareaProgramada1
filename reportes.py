@@ -153,15 +153,15 @@ def reporteBibliotecaTipo(pTipo, pVisitantes):
     htmlBiblioTipo += "</html>"
     return crearArchivoHtml("Reporte biblioteca " + pTipo, htmlBiblioTipo)
 
-# Pruebas
+# Pruebas funciones
 #contAstros = crearContadorAstro(visitantes)
 
-print(estadisticasAstros(visitantes))
+#print(estadisticasAstros(visitantes))
 
 #for visitante in visitantes:
   #  reporteVisitante(visitante, astronomos)
 
-reporteStatsAstros(visitantes, astronomos)
+#reporteStatsAstros(visitantes, astronomos)
 
 #reporteAstrosRango(astronomos, 1900)
 
