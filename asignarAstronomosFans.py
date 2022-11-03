@@ -10,7 +10,8 @@ from random import *
 visitantes = [[305430092, ("Ian", "Coto", "Soto"), [], [], True], [987654321, ("Pedro", "Moto", "Zote"), [], [], True], 
 [696969699, ("Loco", "Es", "Poco"), [], [], True]]
 
-astronomos = {"T624":[],"S1986":[], "A211":[], "A432":[], "K4311":[], "P892":[], "S123":[], "R89":[]}
+astronomos = {"T624":["Teodoro Ardilla"],"S1986":["Sopapo De Milán"], "A211":["Agua Ardiente"], 
+"A432":["Arjona Ricardo"], "K4311":["Kyle"], "P892":["Pedro Picapiedra"], "S123":["Soki 69"], "R89":["Richard VI"]}
 
 """
 Faltan comentarios
