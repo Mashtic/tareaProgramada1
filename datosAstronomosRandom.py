@@ -42,7 +42,7 @@ def importarAstronomos():
             nacimientoFecha = (datosNacimientoAstro[1].replace(" ", ""), "")
         linkDescrip = persona.find('a')['href']
         htmlDescrip = retornarHtml(linkDescrip)
-        descripAstro = htmlDescrip.find('p').text.replace("\r", " ").replace("\n", " ")
+        descripAstro = htmlDescrip.find('p').text.replace("\r", " ").replace("\n", " ").replace("\u200b", "")
         llavesAstro.append(nombre[0] + obtieneAnno(nacimientoFecha[0]))
         valoresAstro.append([nombre, datosNacimientoAstro[0], nacimientoFecha, descripAstro])
     return llavesAstro, valoresAstro
@@ -60,6 +60,5 @@ def crearDiccAstronomos(cantAstros): # 1 <= cantAstros <= 50
     return diccAstros
 
 # Para comprobar que sirve (solo imprime llaves)
-#diccAstro = crearDiccAstronomos(49)
-#for indice, llave in enumerate(diccAstro):
-   # print(indice+1, llave, "\n")
+diccAstro = crearDiccAstronomos(10)
+print(diccAstro)
