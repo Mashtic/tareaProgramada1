@@ -39,7 +39,8 @@ def reporteVisitBaja():
                 <table><tr><th>Cédula</th><th>Nombres</th></tr>"
     visitBaja = obtenerVisitBaja(visitantes)
     for visitante in visitBaja:
-        strElementos = "<tr><td>"+str(visitante[0])+"</td><td>"+ visitante[1][0]+" "+visitante[1][1]+" "+ visitante[1][2]+"</td></tr>"
+        strElementos = ("<tr><td>"+str(visitante[0])+"</td><td>"+ visitante[1][0]+" "+
+        visitante[1][1]+" "+visitante[1][2]+"</td></tr>")
         strTabla += strElementos
     strTabla += "</table></html>"
     return crearArchivoHtml("Bajas visitantes", strTabla)
