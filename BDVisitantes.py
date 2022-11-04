@@ -1,9 +1,22 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
-# Fecha de creación: 02/11/2022 07:45 pm
-# Última modificación: 03/11/2022 02:10 pm
+# Fecha de creación: 27/10/2022 1:05 pm
+# Última modificación: 3/10/2022 10:10 pm
 # Versión: 3.10.8
+#Bibliotecas Importadas
 from names import *
 import random
+import re
+#Funciones
+def esCedula(cedula):
+    """
+    Funcionalidad: valida que la cédula cumpla con el formato
+    Entradas: cedula (str)
+    Salidas: True/False (bool)
+    """
+    if re.match(r"^[1-9](0[0-9]{3}){2}", cedula) == None: # Si cumple el formato de cédula en
+                                                          # en CR, retorna True
+        return False
+    return True
 
 def insertarVisitantes(cant):
     """
@@ -13,7 +26,11 @@ def insertarVisitantes(cant):
     """
     matrizvisitantes=[]
     for i in range(cant):
-        listavisitantes=[random.randint(100000000,999999999), (get_first_name(), get_last_name(), get_last_name()), 
+        estado=False
+        while estado==False:
+            num=random.randint(100000000,999999999)
+            estado=esCedula(num)
+        listavisitantes=[num, (get_first_name(), get_last_name(), get_last_name()), 
         [], [], bool(random.getrandbits(1))]
         matrizvisitantes.append(listavisitantes)
     print("\nLos visitantes han sido creados exitosamente.")

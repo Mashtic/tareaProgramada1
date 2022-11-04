@@ -1,19 +1,22 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
-# Fecha de creación: 02/11/2022 07:45 pm
-# Última modificación: 03/11/2022 02:10 pm
+# Fecha de creación: 26/10/2022 07:45 pm
+# Última modificación: 3/10/2022 10:15 pm
 # Versión: 3.10.8
+#Biblioteca Importadas
 import re
+#Variables Globales
 matrizvisitantes=[]
-def validarCedula(cedula):
+#Funciones
+def esCedula(cedula):
     """
     Funcionalidad: valida que la cédula cumpla con el formato
     Entradas: cedula (str)
     Salidas: True/False (bool)
     """
-    if re.match("[1-9]{1}\d{8}", cedula): # Si cumple el formato de cédula en
-                                          # en CR, retorna True
-        return True
-    return False
+    if re.match(r"^[1-9](0[0-9]{3}){2}", cedula) == None: # Si cumple el formato de cédula en
+                                                          # en CR, retorna True
+        return False
+    return True
 
 def validarNombre(nombre):
     """
@@ -35,7 +38,7 @@ def recibirCedulaAux(cedula):
     Salidas: cedula (int) o recibirCedulaES()
     """
     global matrizvisitantes
-    if validarCedula(cedula)==True:
+    if esCedula(cedula)==True:
         return cedula
     else:
         print("La cédula introducida tiene un formato incorrecto")
