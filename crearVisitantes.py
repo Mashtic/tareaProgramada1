@@ -16,6 +16,11 @@ def validarCedula(cedula):
     return False
 
 def validarNombre(nombre):
+    """
+    Funcionalidad: valida que el formato del nombre esté correcto
+    Entradas: nombre (tuple)
+    Salidas: nombre(tuple) o recibirNombreES()
+    """
     nombre=list(nombre)
     for i in nombre:
         if re.findall("[^a-zA-ZáéíóúÁÉÍÓÚ]", i):
@@ -24,6 +29,11 @@ def validarNombre(nombre):
     return tuple(nombre)
 
 def recibirCedulaAux(cedula):
+    """
+    Funcionalidad: valida las entradas
+    Entradas: cedula (str)
+    Salidas: cedula (int) o recibirCedulaES()
+    """
     global matrizvisitantes
     if validarCedula(cedula)==True:
         return cedula
@@ -33,21 +43,41 @@ def recibirCedulaAux(cedula):
 
 
 def recibirCedulaES():
+    """
+    Funcionalidad: recibre la cedula
+    Entradas: n/a
+    Salidas: recibirCedulaAux(cedula)
+    """
     cedula=input("Digite su número de cédula: ")
     return recibirCedulaAux(cedula)
 
 
 def recibirNombreAux(nombre):
+    """
+    Funcionalidad: valida las entradas
+    Entradas: nombre (str)
+    Salidas: tuplanombre (tuple)
+    """
     listanombre=nombre.split(" ")
     tuplanombre=validarNombre(tuple(listanombre))
     return tuplanombre
 
 def recibirNombreES():
+    """
+    Funcionalidad: recibre el nombre
+    Entradas: n/a
+    Salidas: recibirNombreAux(cedula)
+    """
     nombre=input("Digite su nombre completo: ")
     return recibirNombreAux(nombre)
 
 
 def crearVisitante():
+    """
+    Funcionalidad: Añade el nuevo visitante a la matriz existente
+    Entradas: n/a
+    Salidas: matrizvisitantes
+    """
     global matrizvisitantes
     listavisitante=[recibirCedulaES(), recibirNombreES(), [], [], True]
     matrizvisitantes.append(listavisitante)
