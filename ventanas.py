@@ -8,17 +8,26 @@ import tkinter as tk
 import customtkinter as ctk
 from tkinter import messagebox
 from funciones import *
+from validaciones import *
+from entradas import *
 
 # Funciones globales
-impAstros = False
-crearVisitantes = (False, False)
+crearVisitantes = (True, True)
 reportes = ["Perfil de un visitante", "Estadística de astrónomos",
                             "Mostrar biblioteca digital", "Reporte de astrónomos", 
                             "Visitantes dados de baja", "Recurso por tipo"]
+diccAstros = {}
 
-#------------ Ventana ------------#
+#------------ Ventanas ------------#
 # Ventana 1. Importar astrónomos
+
+def limpiarDiccAstros(diccAstros):
+    messagebox.showinfo("Astrónomos vaciados", "Se ha limpiado los astrónomos."
+    "0 astrónomos actualmente")
+    return diccAstros.clean()
+
 def impAstrosVent(ventanaMain):
+    global diccAstros
     impAstrosVent = ctk.CTkToplevel(ventanaMain)
     impAstrosVent.geometry("400x200")
     impAstrosVent.title("1. Importar astrónomos")
@@ -42,7 +51,7 @@ def impAstrosVent(ventanaMain):
                                  fg_color="grey",
                                  text_font=("Helvetica", 14),
                                  text="Extraer",
-                                 command=lambda: print("Extraer"))
+                                 command=lambda: crearDiccAstronomosAux(cantEntry.get(), diccAstros))
     botonExtraer.place(relx=0.30, rely=0.7, anchor=tk.CENTER)
     botonLimpiar = ctk.CTkButton(master=impAstrosVent,
                                  width=120,
@@ -51,7 +60,7 @@ def impAstrosVent(ventanaMain):
                                  fg_color="grey",
                                  text_font=("Helvetica", 12),
                                  text="Limpiar",
-                                 command=lambda: print("Limpiar"))
+                                 command=lambda: limpiarDiccAstros(diccAstros))
     botonLimpiar.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
     botonSalir = ctk.CTkButton(master=impAstrosVent,
                                  width=120,
@@ -60,17 +69,19 @@ def impAstrosVent(ventanaMain):
                                  fg_color="grey",
                                  text_font=("Helvetica", 12),
                                  text="Regresar",
-                                 command=impAstrosVent.destroy)
+                                 command=lambda: impAstrosVent.destroy())
     botonSalir.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
 
 # Ventana 6. Dar de baja
 def confirmarBaja(pCedula):
-    confirmar = messagebox.askquestion('Exit Application', 'Are you sure you want to exit the application?',
+    confirmar = messagebox.askquestion('Confirmación baja', '¿Está seguro de seguir con el proceso?',
                                         icon='warning')
     if confirmar == 'yes':
-        pass
+        if validaMensajeExito(pCedula, visitantes):
+            messagebox.showinfo('Baja realizada', 'El visitante ha sido dado de baja.')
+        return darBajaVisitAux(pCedula, visitantes)
     else:
-        messagebox.showinfo('Baja no realizada', 'El visitante no ha sido dado de baja')
+        messagebox.showinfo('Baja no realizada', 'El visitante no ha sido dado de baja.')
 
 def darBajaVent(ventanaMain):
     darBajaVent = ctk.CTkToplevel(ventanaMain)
@@ -109,27 +120,27 @@ def darBajaVent(ventanaMain):
     botonSalir.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
 
 # Ventana 7. Reportes
-
 def cambiarOpcionInt(pOpcion):
     return reportes.index(pOpcion)
 
 def devuelveReporte(pOpcion):
+    global visitantes
     if pOpcion == 0:
-        return 
+        return # Ventana
     elif pOpcion == 1:
         messagebox.showinfo("Reporte creado", "El reporte estadísticas de astrónomos ha sido creado.")
-        return 
+        return reporteStatsAstros(visitantes)
     elif pOpcion == 2:
-        messagebox.showinfo("Reporte creado", "El reporte bibliteca digital ha sido creado.")
-        return 
+        messagebox.showinfo("Reporte creado", "El reporte biblioteca digital ha sido creado.")
+        return reporteBiblioteca(visitantes)
     elif pOpcion == 3:
         messagebox.showinfo("Reporte creado", "El reporte reporte de astrónomos ha sido creado.")
-        return 
+        return # Ventana
     elif pOpcion == 4:
         messagebox.showinfo("Reporte creado", "El reporte visitantes dados de baja ha sido creado.")
-        return 
+        return # Ventana
     else:
-        return 
+        return # Ventana
 
 def reportesVent(ventanaMain):
     reportesVent = ctk.CTkToplevel(ventanaMain)
@@ -166,9 +177,8 @@ def reportesVent(ventanaMain):
     botonSalir.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
 
 # Bloque/Desbloqueo botones
-def bloqueoImpAstros(pOpcion, ventMain):
-    impAstros = True
-    if impAstros == False:
+def bloqueoImpAstros(pOpcion, ventMain, diccAstros):
+    if len(diccAstros) == 0:
         messagebox.showinfo("Bloqueo importar astrónomos", "Debe primero importar los astrónomos para acceder a esta opción")
     elif pOpcion == 2:
         return 2 # Función de cada uno
@@ -178,12 +188,13 @@ def bloqueoImpAstros(pOpcion, ventMain):
         return darBajaVent(ventMain)
 
 def bloqueoVisitantes(pOpcion, ventMain):
+    global diccAstros, visitantes
     crearVisitantes = (True, True)
     if crearVisitantes[0] == False or crearVisitantes[1] == False:
         messagebox.showinfo("Bloqueo visitantes", "Debe primero crear los visitantes del botón 2 y 3")
     elif pOpcion == 4:
         messagebox.showinfo("Astrónomos fans", "Los astrónomos han sido agregados exitosamente")
-        return 4 # Funcion
+        return asignarAstroFans(visitantes, diccAstros)
     elif pOpcion == 5:
         return 5
     else:
@@ -191,6 +202,7 @@ def bloqueoVisitantes(pOpcion, ventMain):
 
 # Ventana menú
 def menuVentana():
+    global diccAstros, visitantes
     app = ctk.CTk()
     app.geometry(f"{525}x{515}")
     app.title("AstronoTEC")
@@ -227,7 +239,7 @@ def menuVentana():
                                  fg_color="grey",
                                  text_font=("Helvetica", 12),
                                  text="2. Crear un visitante",
-                                 command=lambda: bloqueoImpAstros(2, app))
+                                 command=lambda: bloqueoImpAstros(2, app, diccAstros))
     boton2.grid(row =3, column = 1, padx=5, pady=5, ipadx=15, ipady=10)
     boton3 = ctk.CTkButton(master=app,
                                  width=120,
@@ -236,7 +248,7 @@ def menuVentana():
                                  fg_color="grey",
                                  text_font=("Helvetica", 12),
                                  text="3. Crear BD de visitantes",
-                                 command=lambda: bloqueoImpAstros(3, app))
+                                 command=lambda: bloqueoImpAstros(3, app, diccAstros))
     boton3.grid(row = 4, column = 0, padx=5, pady=5, ipadx=15, ipady=10)
     boton4 = ctk.CTkButton(master=app,
                                  width=120,
@@ -263,7 +275,7 @@ def menuVentana():
                                  fg_color="grey",
                                  text_font=("Helvetica", 12),
                                  text="6. Dar de baja",
-                                 command=lambda: bloqueoImpAstros(6, app))
+                                 command=lambda: bloqueoImpAstros(6, app, diccAstros))
     boton6.grid(row = 5, column=1, padx=5, pady=5, ipadx=15, ipady=10)
     boton7 = ctk.CTkButton(master=app,
                                  width=120,
@@ -286,7 +298,7 @@ def menuVentana():
                                  fg_color="grey",
                                  text_font=("Helvetica", 12),
                                  text="Salir",
-                                 command= app.destroy)
+                                 command=lambda: print(len(diccAstros), visitantes))
     boton8.grid(row = 8, column=0, padx=5, pady=5, ipadx=15, ipady=15, columnspan=2)
     app.mainloop()
 
