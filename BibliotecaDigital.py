@@ -1,51 +1,33 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
 # Fecha de creación: 03/11/2022 0:45 pm
-# Última modificación: 03/11/2022 02:10 pm
+# Última modificación: 05/11/2022 12:10 pm
 # Versión: 3.10.8
-"""
-import requests
-import json
-
-API_KEY='jghymCiVrWmRMuT7KImJRYihHID8JcRRGwf2JnLm'
-
-url='https://nasa.api.gov/planetary/apod'
-
-params={
-    'api_key': API_KEY,
-    'hd': 'True',
-    'date': '2010-12-25'
-}
-
-response=requests.get(url,params=params)
-json_data=json.loads(response.text)
-print(json_data)
-"""
-
+import random
 import nasapy
-import os
-from datetime import datetime
-import urllib.request
-from IPython.display import Image,display,Audio
-from gtts import gTTS
-import pandas
-import time
+from datetime import date
+
 k="jghymCiVrWmRMuT7KImJRYihHID8JcRRGwf2JnLm"
 
 nasa = nasapy.Nasa(key=k)
 
-d= datetime.today().strftime('%Y-%m-%d')
-
-apod = nasa.picture_of_the_day(date=d, hd=True)
-
-print (apod)
-
 def bibliotecaDigital(cedula):
+    """
+    F: Función que tomando ahora el último número de la cédula de cada registro de la matriz principal, 
+    llene la lista de tuplas con esa cantidad de información extraída del API.
+    E: cedula (int)
+    S: listatupla(list), contiene los datos por visitante.
+
+    """
+    global k
+    global nasa
     listatupla=[]
     lista=[]
     ultimo=cedula%10
     for i in range (ultimo):
-        d = "algo mistico"
+        d = date(random.randint(2000,2022), random.randint(1, 12), random.randint(1,29)).strftime('%Y-%m-%d')
         apod= nasa.picture_of_the_day(date=d, hd=True)
         lista=[apod["title"], apod["date"], apod["explanation"], apod["media_type"], apod["url"]]
         listatupla.append(tuple(lista))
     return listatupla
+
+print(bibliotecaDigital(305260961))
