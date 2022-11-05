@@ -12,22 +12,33 @@ def retornarHtml(pLink):
     """
     Funcionalidad: se obtiene el código HTML de la página
     Entradas: pLink (str)
-    Salidas: codHtml (str)
+    Salidas: codHtml (bs4.BeautifulSoup)
     """
     peticion = requests.get(pLink).text
     codHtml = BeautifulSoup(peticion, 'lxml')
-    print(type(codHtml))
     return codHtml
 
 def obtieneAnno(pStringAnno):
+    """
+    Funcionalidad: obtiene solamente los número hasta encontrar
+                   algo diferente
+    Entradas: pStringAnno (str)
+    Salidas: annoDigitos (str)
+    """
     annoDigitos = ""
     for caracter in pStringAnno:
-        if not caracter.isdigit():
+        if not caracter.isdigit(): # Para parar cuando se 
+                                   # encuentra a. C. por ej 
             break
         annoDigitos += caracter
     return annoDigitos
 
 def importarAstronomos(astroTotales):
+    """
+    Funcionalidad: crea un diccionario con los 50 astrónomos
+    Entradas: astroTotales (int): cantidad de astrónomos
+    Salidas: annoDigitos (str)
+    """
     numAstro = 1
     diccAstros = {}
     htmlAstro = retornarHtml('https://atlasdeastronomia.com/astronomos/')
