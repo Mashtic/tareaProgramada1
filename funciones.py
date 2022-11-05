@@ -1,6 +1,6 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
 # Fecha de creación: 13/10/2022 11:30 am
-# Última modificación: 04/11/2022 04:08 pm
+# Última modificación: 04/11/2022 04:20 pm
 # Versión: 3.10.8
 
 # Importar libreías
@@ -9,30 +9,31 @@ import requests
 from random import *
 import re
 
-# Función auxiliar
-def esVisitante(pCedula, pVisitantes):
+# Función archivos HTML
+def crearArchivoHtml(pNombre, pInfo):
     """
-    Funcionalidad: comrpueba que la cédula esté en el registro de visitantes,
-                   si lo está, retorna True
-    Entradas: pCedula (int)
-              pVisitantes (dict)
-    Salidas: True/False (bool)
+    Funcionalidad: crea el archivo HTML
+    Entradas: pNombre (str)
+              pInfo (str)
+    Salidas: N/A
     """
-    for visitante in pVisitantes:
-        if pCedula == visitante[0]: # Si se encuentra
-            return True
-    return False
+    archivo = open(pNombre + ".html", 'w')
+    archivo.write(pInfo)
+    archivo.close
+    return
 
-def esCedula(cedula):
+# Funciones de apoyo
+def esEntero(pNum):
     """
-    Funcionalidad: valida que la cédula cumpla con el formato
-    Entradas: cedula (str)
+    Funcionalidad: comprueba que sea un número entero
+    Entradas: pNum (int)
     Salidas: True/False (bool)
     """
-    if re.match(r"^[1-9](0[0-9]{3}){2}", cedula) == None: # Si cumple el formato de cédula en
-                                                          # en CR, retorna True
+    try:
+        pNum = int(pNum)
+        return True
+    except:
         return False
-    return True
 
 def obtenerListasLlaves(pDicc):
     """
@@ -53,18 +54,6 @@ def obtenerNombre(pVisitante):
     Salidas: nombre de la persona (str)
     """
     return pVisitante[1][0] + " " + pVisitante[1][1] + " " + pVisitante[1][2]
-
-def crearArchivoHtml(pNombre, pInfo):
-    """
-    Funcionalidad: crea el archivo HTML
-    Entradas: pNombre (str)
-              pInfo (str)
-    Salidas: N/A
-    """
-    archivo = open(pNombre + ".html", 'w')
-    archivo.write(pInfo)
-    archivo.close
-    return
 
 # Funciones del programa
 # 1. Función importar 
@@ -119,15 +108,18 @@ def importarAstronomos():
         valoresAstro.append([nombre, datosNacimientoAstro[0], nacimientoFecha, descripAstro]) # Añade los datos a las listas
     return llavesAstro, valoresAstro
 
-def crearDiccAstronomos(cantAstros):
+def crearDiccAstronomos(cantAstros, diccAstros):
     """
     Funcionalidad: crea un diccionario con la cantidad de astrónomos
                    requerida y en diferente orden que la página
     Entradas: cantAstros (int): 1 <= cantAstros <= 50
-    Salidas: diccAstros (dict)
+              diccAstros (dict)
+              impAstros (bool)
+    Salidas: diccAstros (dict) (act)
     """
+    if len(diccAstros) != 0:
+        diccAstros = {} # Para que solo sean la cantidad que se pide
     numAstro = 1
-    diccAstros = {}
     llavesAstro, valoresAstro = importarAstronomos()
     while cantAstros >= numAstro:
         posAstro = randint(0, len(llavesAstro)-1)
@@ -325,7 +317,7 @@ def reporteBiblioteca(pVisitantes):
     biblioteca = obtenerBibliotecaCompleta(pVisitantes)
     htmlBiblio += "\n</body>" + tablaContenidoNasa(biblioteca)
     htmlBiblio += "</html>"
-    return crearArchivoHtml("Reporte bilioteca", htmlBiblio)
+    return crearArchivoHtml("Reporte biblioteca", htmlBiblio)
 
 # Reporte astrónomos
 def astrosRango(pAstronomos, pPrimerAnno, pSegundoAnno):
@@ -344,7 +336,7 @@ def astrosRango(pAstronomos, pPrimerAnno, pSegundoAnno):
             astrosRango[codAstro] = datosAstro
     return astrosRango
 
-def reporteAstrosRango(pAstronomos, pPrimerAnno, pSegundoAnno=2022):
+def reporteAstrosRango(pAstronomos, pPrimerAnno, pSegundoAnno):
     """
     Funcionalidad: crea el archivo HTML con la información de los astrónomos
                    en el rango de años inscrito
