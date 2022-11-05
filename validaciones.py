@@ -13,13 +13,25 @@ def esVisitante(pCedula, pVisitantes):
     Funcionalidad: comrpueba que la cédula esté en el registro de visitantes,
                    si lo está, retorna True
     Entradas: pCedula (int)
-              pVisitantes (dict)
+              pVisitantes (list)
     Salidas: True/False (bool)
     """
     for visitante in pVisitantes:
         if pCedula == visitante[0]: # Si se encuentra
             return True
     return False
+
+def retornaVisitante(pCedula, pVisitantes):
+    """
+    Funcionalidad: devueleve al visitante según su cédula
+    Entradas: pCedula (int)
+              pVisitantes (list of lists)
+    Salidas: visitante (list)
+    """
+    for visitante in pVisitantes:
+        if pCedula == visitante[0]: # Si se encuentra, lo retorna
+            return visitante
+    return []
 
 def esCedula(cedula):
     """
@@ -83,7 +95,7 @@ def darBajaVisitAux(pCedula, pVisitantes):
 
 # Función 7. Reportes
 # Perfil de visitante
-def reporteVisitanteAux(pCedula, pVisitantes):
+def reporteVisitanteAux(pCedula, pVisitantes, pAstronomos):
     """
     Funcionalidad: comprueba datos de entrada
     Entradas: pCedula (str)
@@ -96,7 +108,9 @@ def reporteVisitanteAux(pCedula, pVisitantes):
     elif not esVisitante(int(pCedula), pVisitantes):
         return messagebox.showerror("Visitante no registrado", 
         "Ingrese la cédula de un visitante registrado.")
-    return reporteVisitante(pCedula, pVisitantes)
+    messagebox.showinfo("Reporte creado", 
+        "Se ha creado el reporte del visitante " + pCedula + ".")
+    return reporteVisitante(retornaVisitante(int(pCedula), pVisitantes), pAstronomos)
 
 # Estadísticas astrónomos
 """
@@ -117,7 +131,7 @@ def reporteAstrosRangoAux(pAstronomos, pPrimerAnno, pSegundoAnno):
         return messagebox.showerror("Año incorrecto", 
         "El año debe ser mayor a 0.")
     elif pSegundoAnno == "":
-        pSegundoAnno = int("2022")
+        pSegundoAnno = "2022"
     elif not esEntero(pSegundoAnno):
         return messagebox.showerror("Año incorrecto", 
         "Digite un número de año correcto (mayor a 0).")
@@ -127,7 +141,9 @@ def reporteAstrosRangoAux(pAstronomos, pPrimerAnno, pSegundoAnno):
     elif not (pPrimerAnno < pSegundoAnno):
         return messagebox.showerror("Años incorrectos", 
         "El segundo año debe ser mayor al primero.")
-    return reporteAstrosRango(pAstronomos, pPrimerAnno, pSegundoAnno)
+    messagebox.showinfo("Reporte creado", 
+    "El reporte reporte de astrónomos ha sido creado.")
+    return reporteAstrosRango(pAstronomos, int(pPrimerAnno), int(pSegundoAnno))
 
 # Visitantes de baja
 """

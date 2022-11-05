@@ -46,14 +46,14 @@ def obtenerListasLlaves(pDicc):
         listaLlaves.append(llave) 
     return listaLlaves
 
-def obtenerNombre(pVisitante):
+def obtenerNombre(pNombre):
     """
     Funcionalidad: toma los datos de la tupla correspondiente
                    al nombre y los devuelve
-    Entradas: pVisitante (list)
+    Entradas: pNombre (tuple)
     Salidas: nombre de la persona (str)
     """
-    return pVisitante[1][0] + " " + pVisitante[1][1] + " " + pVisitante[1][2]
+    return pNombre[0] + " " + pNombre[1] + " " + pNombre[2]
 
 # Funciones del programa
 # 1. Función importar 
@@ -103,7 +103,7 @@ def importarAstronomos():
             nacimientoFecha = (datosNacimientoAstro[1].replace(" ", ""), "")
         linkDescrip = persona.find('a')['href']
         htmlDescrip = retornarHtml(linkDescrip)
-        descripAstro = htmlDescrip.find('p').text.replace("\r", " ").replace("\n", " ").replace("\u200b", "") # Para limipiar info
+        descripAstro = htmlDescrip.find('p').text
         llavesAstro.append(nombre[0] + obtieneAnno(nacimientoFecha[0]))
         valoresAstro.append([nombre, datosNacimientoAstro[0], nacimientoFecha, descripAstro]) # Añade los datos a las listas
     return llavesAstro, valoresAstro
@@ -235,7 +235,7 @@ def reporteVisitante(pVisitante, pAstronomos):
     htmlVisit = ("<html>\n<head>\n<title> \nReporte " + cedula +
     "</title>\n</head> <body><h2>Reporte visitante" + "</h2>"
     "<h3>Cedula</h3> \n<p>"+ cedula +"</p>"
-    "<h3>Nombre</h3> \n<p>"+str(obtenerNombre(pVisitante))+"</p>")
+    "<h3>Nombre</h3> \n<p>"+str(obtenerNombre(pVisitante[1]))+"</p>")
     htmlVisit += "\n</body>" + tablaAstros(astronomosFansVisit(pVisitante, pAstronomos))
     htmlVisit += tablaContenidoNasa(pVisitante[3])
     htmlVisit += "</html>"
@@ -320,7 +320,7 @@ def reporteBiblioteca(pVisitantes):
     return crearArchivoHtml("Reporte biblioteca", htmlBiblio)
 
 # Reporte astrónomos
-def astrosRango(pAstronomos, pPrimerAnno, pSegundoAnno):
+def obtenerRangoAstros(pAstronomos, pPrimerAnno, pSegundoAnno):
     """
     Funcionalidad: crea una lista con los datos de la API utilizados en
                    los visitantes
@@ -348,7 +348,7 @@ def reporteAstrosRango(pAstronomos, pPrimerAnno, pSegundoAnno):
     """
     strTabla = "<html>\n<head>\n<title>Astrónomos en rango\n\
                 </title>\n</head><body><h1>Astrónomos desde "+str(pPrimerAnno)+" hasta "+str(pSegundoAnno)+"</h1>"
-    astrosRango = astrosRango(pAstronomos, pPrimerAnno, pSegundoAnno)
+    astrosRango = obtenerRangoAstros(pAstronomos, pPrimerAnno, pSegundoAnno)
     strTabla += tablaAstros(astrosRango)
     strTabla += "</html>"
     return crearArchivoHtml("Reporte astronónomos " + str(pPrimerAnno) + " - " + str(pSegundoAnno), strTabla)
@@ -366,7 +366,7 @@ def reporteVisitBaja(pVisitantes):
                 <table><tr><th>Cédula</th><th>Nombres</th></tr>"
     for visitante in pVisitantes:
         if visitante[4] == False:
-            strElementos = ("<tr><td>"+str(visitante[0])+"</td><td>"+ obtenerNombre(visitante)+"</td></tr>")
+            strElementos = ("<tr><td>"+str(visitante[0])+"</td><td>"+ obtenerNombre(visitante[1])+"</td></tr>")
             strTabla += strElementos
     strTabla += "</table></html>"
     return crearArchivoHtml("Reporte bajas visitantes", strTabla)

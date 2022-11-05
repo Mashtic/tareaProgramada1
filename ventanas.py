@@ -22,9 +22,8 @@ diccAstros = {}
 # Ventana 1. Importar astrónomos
 
 def limpiarDiccAstros(diccAstros):
-    messagebox.showinfo("Astrónomos vaciados", "Se ha limpiado los astrónomos."
-    "0 astrónomos actualmente")
-    return diccAstros.clean()
+    messagebox.showinfo("Astrónomos vaciados", "Se ha limpiado los astrónomos.")
+    return diccAstros.clear()
 
 def impAstrosVent(ventanaMain):
     global diccAstros
@@ -123,22 +122,102 @@ def darBajaVent(ventanaMain):
 def cambiarOpcionInt(pOpcion):
     return reportes.index(pOpcion)
 
-def devuelveReporte(pOpcion):
-    global visitantes
+def reporteVisitanteVent(visitantes, ventanaMain):
+    reporteVisitanteVent = ctk.CTkToplevel(ventanaMain)
+    reporteVisitanteVent.geometry("400x200")
+    reporteVisitanteVent.title("Reporte visitante")
+    titulo = ctk.CTkLabel(reporteVisitanteVent, text="Reporte visitante", text_font=("Helvetica", 20))
+    titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
+    subTitulo = ctk.CTkLabel(reporteVisitanteVent, 
+    text="Digite el número de cédula: ",
+    text_font=("Helvetica", 12))
+    subTitulo.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
+    cantEntry = ctk.CTkEntry(master=reporteVisitanteVent,
+                               placeholder_text="Cédula",
+                               width=125,
+                               height=35,
+                               border_width=2,
+                               corner_radius=10)
+    cantEntry.place(relx=0.5, rely=0.45, anchor=tk.CENTER)
+    botonReporte = ctk.CTkButton(master=reporteVisitanteVent,
+                                 width=120,
+                                 height=32,
+                                 corner_radius=8,
+                                 fg_color="grey",
+                                 text_font=("Helvetica", 12),
+                                 text="Baja",
+                                 command=lambda: reporteVisitanteAux(cantEntry.get(), visitantes, diccAstros))
+    botonReporte.place(relx=0.30, rely=0.7, anchor=tk.CENTER)
+    botonSalir = ctk.CTkButton(master=reporteVisitanteVent,
+                                 width=120,
+                                 height=32,
+                                 corner_radius=8,
+                                 fg_color="grey",
+                                 text_font=("Helvetica", 12),
+                                 text="Regresar",
+                                 command=reporteVisitanteVent.destroy)
+    botonSalir.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
+
+def reporteAstrosRangoVent(diccAstros, ventanaMain):
+    reporteAstrosRangoVent = ctk.CTkToplevel(ventanaMain)
+    reporteAstrosRangoVent.geometry("400x200")
+    reporteAstrosRangoVent.title("Reporte astrónomos")
+    titulo = ctk.CTkLabel(reporteAstrosRangoVent, text="Reporte astrónomos según nacimiento", 
+    text_font=("Helvetica", 20))
+    titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
+    subTitulo = ctk.CTkLabel(reporteAstrosRangoVent, 
+    text="Digite el rango de nacimiento: ",
+    text_font=("Helvetica", 12))
+    subTitulo.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
+    annoUnoEntry = ctk.CTkEntry(master=reporteAstrosRangoVent,
+                               placeholder_text="Primer año",
+                               width=125,
+                               height=35,
+                               border_width=2,
+                               corner_radius=10)
+    annoUnoEntry.place(relx=0.30, rely=0.45, anchor=tk.CENTER)
+    annoDosEntry = ctk.CTkEntry(master=reporteAstrosRangoVent,
+                               placeholder_text="Último año",
+                               width=125,
+                               height=35,
+                               border_width=2,
+                               corner_radius=10)
+    annoDosEntry.place(relx=0.70, rely=0.45, anchor=tk.CENTER)
+    botonReporte = ctk.CTkButton(master=reporteAstrosRangoVent,
+                                 width=120,
+                                 height=32,
+                                 corner_radius=8,
+                                 fg_color="grey",
+                                 text_font=("Helvetica", 12),
+                                 text="Crear",
+                                 command=lambda: reporteAstrosRangoAux(diccAstros, 
+                                 annoUnoEntry.get(), annoDosEntry.get()))
+    botonReporte.place(relx=0.30, rely=0.7, anchor=tk.CENTER)
+    botonSalir = ctk.CTkButton(master=reporteAstrosRangoVent,
+                                 width=120,
+                                 height=32,
+                                 corner_radius=8,
+                                 fg_color="grey",
+                                 text_font=("Helvetica", 12),
+                                 text="Regresar",
+                                 command=reporteAstrosRangoVent.destroy)
+    botonSalir.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
+
+def devuelveReporte(pOpcion, ventanaMain):
+    global visitantes, diccAstros, visitantesLleno
     if pOpcion == 0:
-        return # Ventana
+        return reporteVisitanteVent(visitantes, ventanaMain)
     elif pOpcion == 1:
         messagebox.showinfo("Reporte creado", "El reporte estadísticas de astrónomos ha sido creado.")
-        return reporteStatsAstros(visitantes)
+        return reporteStatsAstros(visitantes, diccAstros)
     elif pOpcion == 2:
         messagebox.showinfo("Reporte creado", "El reporte biblioteca digital ha sido creado.")
-        return reporteBiblioteca(visitantes)
+        return reporteBiblioteca(visitantesLleno)
     elif pOpcion == 3:
-        messagebox.showinfo("Reporte creado", "El reporte reporte de astrónomos ha sido creado.")
-        return # Ventana
+        return reporteAstrosRangoVent(diccAstros, ventanaMain)
     elif pOpcion == 4:
         messagebox.showinfo("Reporte creado", "El reporte visitantes dados de baja ha sido creado.")
-        return # Ventana
+        return reporteVisitBaja(visitantes)
     else:
         return # Ventana
 
@@ -164,7 +243,7 @@ def reportesVent(ventanaMain):
                                  fg_color="grey",
                                  text_font=("Helvetica", 12),
                                  text="Crear / Ir",
-                                 command=lambda: devuelveReporte(cambiarOpcionInt(opcionReportes.get())))
+                                 command=lambda: devuelveReporte(cambiarOpcionInt(opcionReportes.get()), ventanaMain))
     botonReporte.place(relx=0.30, rely=0.7, anchor=tk.CENTER)
     botonSalir = ctk.CTkButton(master=reportesVent,
                                  width=120,
@@ -179,7 +258,7 @@ def reportesVent(ventanaMain):
 # Bloque/Desbloqueo botones
 def bloqueoImpAstros(pOpcion, ventMain, diccAstros):
     if len(diccAstros) == 0:
-        messagebox.showinfo("Bloqueo importar astrónomos", "Debe primero importar los astrónomos para acceder a esta opción")
+        return messagebox.showinfo("Bloqueo importar astrónomos", "Debe primero importar los astrónomos para acceder a esta opción")
     elif pOpcion == 2:
         return 2 # Función de cada uno
     elif pOpcion == 3:
@@ -189,7 +268,6 @@ def bloqueoImpAstros(pOpcion, ventMain, diccAstros):
 
 def bloqueoVisitantes(pOpcion, ventMain):
     global diccAstros, visitantes
-    crearVisitantes = (True, True)
     if crearVisitantes[0] == False or crearVisitantes[1] == False:
         messagebox.showinfo("Bloqueo visitantes", "Debe primero crear los visitantes del botón 2 y 3")
     elif pOpcion == 4:
