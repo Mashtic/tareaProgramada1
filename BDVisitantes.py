@@ -25,14 +25,14 @@ def insertarVisitantes(cant):
     Salidas: matrizvisitantes (list)
     """
     matrizvisitantes=[]
+    listavisitantes=[]
     for i in range(cant):
-        estado=False
-        while estado==False:
-            num=random.randint(100000000,999999999)
-            estado=esCedula(num)
+        num=(random.randint(1, 999))+(10000*random.randint(1, 999))+(100000000*random.randint(1,9))
         listavisitantes=[num, (get_first_name(), get_last_name(), get_last_name()), 
         [], [], bool(random.getrandbits(1))]
         matrizvisitantes.append(listavisitantes)
+        print(matrizvisitantes)
+    
     print("\nLos visitantes han sido creados exitosamente.")
     return matrizvisitantes
 
@@ -44,9 +44,9 @@ def insertarVisitantesAux(cant):
     """
     try:
         cant=int(cant)
-        if (0 < cant <= 1000): # Equipos tradicionales de máximo 50 personas y mínimo 1
-            return "Debe digitar una cantidad de miembros entre 1 y 50."
-        return insertarVisitantes(cant)
+        if (0 < cant <= 1000): # Equipos tradicionales de máximo 1000 personas y mínimo 1
+            return insertarVisitantes(cant)
+        return "Debe digitar una cantidad de miembros entre 1 y 1000."
     except:
         return "La cantidad de visitantes debe ser un número entero positivo."
 
@@ -58,4 +58,5 @@ def insertarVisitantesES():
              para realizar corrección (str)
     """
     cant=input("\nDigite la cantidad de visitantes: ")
+    print("holipt1")
     return insertarVisitantesAux(cant)
