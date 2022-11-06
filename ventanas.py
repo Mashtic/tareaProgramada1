@@ -12,7 +12,7 @@ from validaciones import *
 from entradas import *
 
 # Funciones globales
-crearVisitantes = (True, True)
+crearVisitantes = (False, False)
 reportes = ["Perfil de un visitante", "Estadística de astrónomos",
                             "Mostrar biblioteca digital", "Reporte de astrónomos", 
                             "Visitantes dados de baja", "Recurso por tipo"]
@@ -33,7 +33,8 @@ def impAstrosVent(ventanaMain):
     impAstrosVent = ctk.CTkToplevel(ventanaMain)
     impAstrosVent.geometry("400x200")
     impAstrosVent.title("Importar astrónomos")
-    titulo = ctk.CTkLabel(impAstrosVent, text="Importar astrónomos", text_font=fuenteTitulo)
+    titulo = ctk.CTkLabel(impAstrosVent, text="Importar astrónomos", 
+    text_font=fuenteTitulo)
     titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
     subTitulo = ctk.CTkLabel(impAstrosVent, 
     text="Ingrese la cantidad de astrónomos que desea importar: ",
@@ -53,7 +54,8 @@ def impAstrosVent(ventanaMain):
                                  fg_color="grey",
                                  text_font=fuenteBotones,
                                  text="Extraer",
-                                 command=lambda: crearDiccAstronomosAux(cantEntry.get(), diccAstros))
+                                 command=lambda: 
+                                 crearDiccAstronomosAux(cantEntry.get(), diccAstros))
     botonExtraer.place(relx=0.30, rely=0.7, anchor=tk.CENTER)
     botonLimpiar = ctk.CTkButton(master=impAstrosVent,
                                  width=120,
@@ -76,11 +78,13 @@ def impAstrosVent(ventanaMain):
 
 # Ventana 6. Dar de baja
 def confirmarBaja(pCedula):
-    confirmar = messagebox.askquestion('Confirmar baja', '¿Está seguro de seguir con el proceso?',
+    confirmar = messagebox.askquestion('Confirmar baja', 
+    '¿Está seguro de seguir con el proceso?',
                                         icon='warning')
     if confirmar == 'yes':
         if validaMensajeExito(pCedula, visitantes):
-            messagebox.showinfo('Baja realizada', 'El visitante ha sido dado de baja.')
+            messagebox.showinfo('Baja realizada', 
+            'El visitante ha sido dado de baja.')
         return darBajaVisitAux(pCedula, visitantes)
     else:
         messagebox.showinfo('Baja no realizada', 'El visitante no ha sido dado de baja.')
@@ -89,7 +93,8 @@ def darBajaVent(ventanaMain):
     darBajaVent = ctk.CTkToplevel(ventanaMain)
     darBajaVent.geometry("400x200")
     darBajaVent.title("Dar de baja")
-    titulo = ctk.CTkLabel(darBajaVent, text="Dar de baja", text_font=fuenteTitulo)
+    titulo = ctk.CTkLabel(darBajaVent, text="Dar de baja", 
+    text_font=fuenteTitulo)
     titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
     subTitulo = ctk.CTkLabel(darBajaVent, 
     text="Digite el número de cédula: ",
@@ -109,7 +114,8 @@ def darBajaVent(ventanaMain):
                                  fg_color="grey",
                                  text_font=fuenteBotones,
                                  text="Baja",
-                                 command=lambda: confirmarBaja(cantEntry.get()))
+                                 command=lambda: 
+                                 confirmarBaja(cantEntry.get()))
     botonBaja.place(relx=0.30, rely=0.7, anchor=tk.CENTER)
     botonSalir = ctk.CTkButton(master=darBajaVent,
                                  width=120,
@@ -129,7 +135,8 @@ def reporteVisitanteVent(visitantes, ventanaMain):
     reporteVisitanteVent = ctk.CTkToplevel(ventanaMain)
     reporteVisitanteVent.geometry("400x200")
     reporteVisitanteVent.title("Reporte visitante")
-    titulo = ctk.CTkLabel(reporteVisitanteVent, text="Reporte visitante", text_font=fuenteTitulo)
+    titulo = ctk.CTkLabel(reporteVisitanteVent, 
+    text="Reporte visitante", text_font=fuenteTitulo)
     titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
     subTitulo = ctk.CTkLabel(reporteVisitanteVent, 
     text="Digite el número de cédula:",
@@ -149,7 +156,9 @@ def reporteVisitanteVent(visitantes, ventanaMain):
                                  fg_color="grey",
                                  text_font=fuenteBotones,
                                  text="Crear",
-                                 command=lambda: reporteVisitanteAux(cantEntry.get(), visitantes, diccAstros))
+                                 command=lambda: 
+                                 reporteVisitanteAux(cantEntry.get(), 
+                                 visitantes, diccAstros))
     botonReporte.place(relx=0.30, rely=0.7, anchor=tk.CENTER)
     botonSalir = ctk.CTkButton(master=reporteVisitanteVent,
                                  width=120,
@@ -165,7 +174,8 @@ def reporteAstrosRangoVent(diccAstros, ventanaMain):
     reporteAstrosRangoVent = ctk.CTkToplevel(ventanaMain)
     reporteAstrosRangoVent.geometry("400x200")
     reporteAstrosRangoVent.title("Reporte astrónomos")
-    titulo = ctk.CTkLabel(reporteAstrosRangoVent, text="Reporte astrónomos según nacimiento", 
+    titulo = ctk.CTkLabel(reporteAstrosRangoVent, 
+    text="Reporte astrónomos según nacimiento", 
     text_font=fuenteTitulo)
     titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
     subTitulo = ctk.CTkLabel(reporteAstrosRangoVent, 
@@ -210,7 +220,8 @@ def reporteBibliotecaTipoVent(visitantes, ventanaMain):
     reporteBibliotecaTipoVent = ctk.CTkToplevel(ventanaMain)
     reporteBibliotecaTipoVent.geometry("400x200")
     reporteBibliotecaTipoVent.title("Reporte biblioteca tipo")
-    titulo = ctk.CTkLabel(reporteBibliotecaTipoVent, text="Reporte biblioteca según tipo", 
+    titulo = ctk.CTkLabel(reporteBibliotecaTipoVent, 
+    text="Reporte biblioteca según tipo", 
     text_font=fuenteTitulo)
     titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
     subTitulo = ctk.CTkLabel(reporteBibliotecaTipoVent, 
@@ -248,15 +259,18 @@ def devuelveReporte(pOpcion, ventanaMain):
     if pOpcion == 0:
         return reporteVisitanteVent(visitantes, ventanaMain)
     elif pOpcion == 1:
-        messagebox.showinfo("Reporte creado", "El reporte estadísticas de astrónomos ha sido creado.")
+        messagebox.showinfo("Reporte creado", 
+        "El reporte estadísticas de astrónomos ha sido creado.")
         return reporteStatsAstros(visitantes, diccAstros)
     elif pOpcion == 2:
-        messagebox.showinfo("Reporte creado", "El reporte biblioteca digital ha sido creado.")
+        messagebox.showinfo("Reporte creado", 
+        "El reporte biblioteca digital ha sido creado.")
         return reporteBiblioteca(visitantesLleno)
     elif pOpcion == 3:
         return reporteAstrosRangoVent(diccAstros, ventanaMain)
     elif pOpcion == 4:
-        messagebox.showinfo("Reporte creado", "El reporte visitantes dados de baja ha sido creado.")
+        messagebox.showinfo("Reporte creado", 
+        "El reporte visitantes dados de baja ha sido creado.")
         return reporteVisitBaja(visitantes)
     else:
         return reporteBibliotecaTipoVent(visitantes, ventanaMain)
@@ -271,7 +285,7 @@ def reportesVent(ventanaMain):
     text="Seleccione el reporte que quiere obtener",
     text_font=fuenteBotones)
     subTitulo.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
-    opcionReportes = ctk.StringVar(value="Visitantes dados de baja")  # set initial value
+    opcionReportes = ctk.StringVar(value="Visitantes dados de baja")
     opcionesSeleccion = ctk.CTkComboBox(master=reportesVent,
                                 width=200, height=32,
                                 values=reportes,
@@ -300,7 +314,7 @@ def reportesVent(ventanaMain):
 def bloqueoImpAstros(pOpcion, ventMain, diccAstros):
     if len(diccAstros) == 0:
         return messagebox.showinfo("Bloqueo importar astrónomos", 
-        "Debe primero importar los astrónomos para acceder a esta opción")
+        "Debe primero importar los astrónomos para acceder a esta opción.")
     elif pOpcion == 2:
         return 2 # Función de cada uno
     elif pOpcion == 3:
@@ -312,9 +326,10 @@ def bloqueoVisitantes(pOpcion, ventMain):
     global diccAstros, visitantes
     if crearVisitantes[0] == False or crearVisitantes[1] == False:
         messagebox.showinfo("Bloqueo visitantes", 
-        "Debe primero crear los visitantes del botón 2 y 3")
+        "Debe primero crear los visitantes del botón 2 y 3.")
     elif pOpcion == 4:
-        messagebox.showinfo("Astrónomos fans", "Los astrónomos han sido agregados exitosamente")
+        messagebox.showinfo("Astrónomos fans", 
+        "Los astrónomos han sido agregados exitosamente.")
         return asignarAstroFans(visitantes, diccAstros)
     elif pOpcion == 5:
         return 5
