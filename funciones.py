@@ -17,7 +17,7 @@ def crearArchivoHtml(pNombre, pInfo):
               pInfo (str)
     Salidas: N/A
     """
-    archivo = open(pNombre + ".html", 'w')
+    archivo = open(pNombre + ".html", 'w', encoding="utf-8")
     archivo.write(pInfo)
     archivo.close
     return
@@ -103,7 +103,7 @@ def importarAstronomos():
             nacimientoFecha = (datosNacimientoAstro[1].replace(" ", ""), "")
         linkDescrip = persona.find('a')['href']
         htmlDescrip = retornarHtml(linkDescrip)
-        descripAstro = htmlDescrip.find('p').text
+        descripAstro = htmlDescrip.find('p').text.replace("\r\n", " ").replace("\n\r\n", " ").replace("\n", " ")
         llavesAstro.append(nombre[0] + obtieneAnno(nacimientoFecha[0]))
         valoresAstro.append([nombre, datosNacimientoAstro[0], nacimientoFecha, descripAstro]) # Añade los datos a las listas
     return llavesAstro, valoresAstro
@@ -205,7 +205,8 @@ def tablaContenidoNasa(pBiblioteca):
     "<th>Tipo de medio</th><th>Link</th></tr>")
     for datosContenido in pBiblioteca:
         strElementos = ("<tr><td>"+datosContenido[1]+"</td><td>"+ datosContenido[0]+"</td>"+
-        "<td>"+ datosContenido[2]+"</td><td>"+ datosContenido[3]+"</td><td><a target='_blank' href="+datosContenido[4]+">"+datosContenido[4]+"</a>.</td></tr>")
+        "<td>"+ datosContenido[2]+"</td><td>"+ datosContenido[3]+"</td><td><a target='_blank'"+
+        "href="+datosContenido[4]+">"+datosContenido[4]+"</a>.</td></tr>")
         strTabla += strElementos
     return strTabla + "</table>"
 
