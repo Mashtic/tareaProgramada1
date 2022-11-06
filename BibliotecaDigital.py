@@ -18,7 +18,7 @@ def importarDatosNasa():
     clave="f24nnkOORGnEmbG7B7Bp01g6jL4UXQKLRh1kFn6s"
     nasa = nasapy.Nasa(key=clave)
     datosNasa = []
-    for num in range(25):
+    for num in range(100):
         d = date(randint(2015,2021), randint(1, 12), randint(1,28)).strftime('%Y-%m-%d')
         try:
             apod= nasa.picture_of_the_day(date=d, hd=True)
