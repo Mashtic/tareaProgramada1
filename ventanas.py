@@ -93,7 +93,7 @@ def darBajaVent(ventanaMain):
     titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
     subTitulo = ctk.CTkLabel(darBajaVent, 
     text="Digite el número de cédula: ",
-    text_font=fuenteBotonesMenu)
+    text_font=fuenteBotones)
     subTitulo.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
     cantEntry = ctk.CTkEntry(master=darBajaVent,
                                placeholder_text="Cédula",
