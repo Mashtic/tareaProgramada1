@@ -25,10 +25,20 @@ fuenteTitulo = ("Helvetica", 20)
 # Ventana 1. Importar astrónomos
 
 def limpiarDiccAstros(diccAstros):
+    """
+    Funcionalidad: limpia la variable diccAstros (datos astrónomos)
+    Entrada: diccAstros (dict)
+    Salida: diccAstros (dict) (vacío)
+    """
     messagebox.showinfo("Astrónomos vaciados", "Se ha limpiado los astrónomos.")
     return diccAstros.clear()
 
 def impAstrosVent(ventanaMain):
+    """
+    Funcionalidad: ser la ventana que permite importar astrónomos
+    Entrada: ventanaMain (CTK)
+    Salida: importar astrónomos / mensaje error
+    """
     global diccAstros
     impAstrosVent = ctk.CTkToplevel(ventanaMain)
     impAstrosVent.geometry("400x200")
@@ -73,11 +83,16 @@ def impAstrosVent(ventanaMain):
                                  fg_color="grey",
                                  text_font=fuenteBotones,
                                  text="Regresar",
-                                 command=lambda: impAstrosVent.destroy())
+                                 command=lambda: impAstrosVent.destroy()) # Sale de la ventana
     botonSalir.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
 
 # Ventana 6. Dar de baja
 def confirmarBaja(pCedula):
+    """
+    Funcionalidad: confirmar que se quiera dar la baja al visitante
+    Entrada: pCedula (str)
+    Salida: llamar a darBajaVisitAux(pCedula, visitantes) o mensaje retroalimentación
+    """
     confirmar = messagebox.askquestion('Confirmar baja', 
     '¿Está seguro de seguir con el proceso?',
                                         icon='warning')
@@ -90,6 +105,11 @@ def confirmarBaja(pCedula):
         messagebox.showinfo('Baja no realizada', 'El visitante no ha sido dado de baja.')
 
 def darBajaVent(ventanaMain):
+    """
+    Funcionalidad: ventana que permite dar de baja
+    Entrada: ventanaMain (CTK)
+    Salida: llamar a confirmarBaja(pCedula) o mensaje retroalimentación
+    """
     darBajaVent = ctk.CTkToplevel(ventanaMain)
     darBajaVent.geometry("400x200")
     darBajaVent.title("Dar de baja")
@@ -129,9 +149,22 @@ def darBajaVent(ventanaMain):
 
 # Ventana 7. Reportes
 def cambiarOpcionInt(pOpcion):
+    """
+    Funcionalidad: cambia la opción en str a un dígito
+                   para ser manipulado
+    Entrada: pOpcion (str)
+    Salida: posición de pOpcion en la lista reportes
+    """
     return reportes.index(pOpcion)
 
 def reporteVisitanteVent(visitantes, ventanaMain):
+    """
+    Funcionalidad: ventana para crear reportes visitante
+    Entrada: visitantes (list) 
+             ventanaMain (CTK)
+    Salida: reporteVisitanteAux(cantEntry.get(), visitantes, diccAstros)
+            (archivo HTML) / retroalimentación
+    """
     reporteVisitanteVent = ctk.CTkToplevel(ventanaMain)
     reporteVisitanteVent.geometry("400x200")
     reporteVisitanteVent.title("Reporte visitante")
@@ -171,6 +204,14 @@ def reporteVisitanteVent(visitantes, ventanaMain):
     botonSalir.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
 
 def reporteAstrosRangoVent(diccAstros, ventanaMain):
+    """
+    Funcionalidad: ventana para crear reportes astrónomos en rango nacimiento
+    Entrada: diccAstros (dict) 
+             ventanaMain (CTK)
+    Salida: reporteAstrosRangoAux(diccAstros, 
+            annoUnoEntry.get(), annoDosEntry.get())
+            (archivo HTML) / retroalimentación
+    """
     reporteAstrosRangoVent = ctk.CTkToplevel(ventanaMain)
     reporteAstrosRangoVent.geometry("400x200")
     reporteAstrosRangoVent.title("Reporte astrónomos")
@@ -217,6 +258,15 @@ def reporteAstrosRangoVent(diccAstros, ventanaMain):
     botonSalir.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
 
 def reporteBibliotecaTipoVent(visitantes, ventanaMain):
+    """
+    Funcionalidad: ventana para crear reportes de biblioteca
+                   por tipo
+    Entrada: visitantes (list) 
+             ventanaMain (CTK)
+    Salida: reporteAstrosRangoAux(diccAstros, 
+            annoUnoEntry.get(), annoDosEntry.get())
+            (archivo HTML) / retroalimentación
+    """
     reporteBibliotecaTipoVent = ctk.CTkToplevel(ventanaMain)
     reporteBibliotecaTipoVent.geometry("400x200")
     reporteBibliotecaTipoVent.title("Reporte biblioteca tipo")
@@ -255,6 +305,14 @@ def reporteBibliotecaTipoVent(visitantes, ventanaMain):
     botonSalir.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
 
 def devuelveReporte(pOpcion, ventanaMain):
+    """
+    Funcionalidad: devuelve una de las funciones de reportes
+                   según la opción seleccionada
+    Entrada: pOpcion (int) 
+             ventanaMain (CTK)
+    Salida: llama a las funciones de ventana para crear un reporte o
+            lo crea directamente
+    """
     global visitantes, diccAstros, visitantesLleno
     if pOpcion == 0:
         return reporteVisitanteVent(visitantes, ventanaMain)
@@ -276,6 +334,11 @@ def devuelveReporte(pOpcion, ventanaMain):
         return reporteBibliotecaTipoVent(visitantes, ventanaMain)
 
 def reportesVent(ventanaMain):
+    """
+    Funcionalidad: ventana con las opciones de reportes para crearlos
+    Entrada: ventanaMain (CTK)
+    Salida: devuelveReporte(cambiarOpcionInt(opcionReportes.get()), ventanaMain) (HTML)
+    """
     reportesVent = ctk.CTkToplevel(ventanaMain)
     reportesVent.geometry("400x200")
     reportesVent.title("Reportes")
@@ -312,6 +375,14 @@ def reportesVent(ventanaMain):
 
 # Bloque/Desbloqueo botones
 def bloqueoImpAstros(pOpcion, ventMain, diccAstros):
+    """
+    Funcionalidad: bloquea los botones 2, 3, 5 si el 1,
+                   no ha sido activado o el diccAstros está vacío
+    Entrada: ventMain (CTK)
+             pOpcion (int)
+             diccAstros (dict)
+    Salida: retorna la función de acuerdo a la opción
+    """
     if len(diccAstros) == 0:
         return messagebox.showinfo("Bloqueo importar astrónomos", 
         "Debe primero importar los astrónomos para acceder a esta opción.")
@@ -323,6 +394,13 @@ def bloqueoImpAstros(pOpcion, ventMain, diccAstros):
         return darBajaVent(ventMain)
 
 def bloqueoVisitantes(pOpcion, ventMain):
+    """
+    Funcionalidad: bloquea los botones 4, 5 y 7, si el 2 y 3
+                   no ha sido activado o el diccAstros está vacío
+    Entrada: ventMain (CTK)
+             pOpcion (int)
+    Salida: retorna la función de acuerdo a la opción
+    """
     global diccAstros, visitantes
     if crearVisitantes[0] == False or crearVisitantes[1] == False:
         messagebox.showinfo("Bloqueo visitantes", 
@@ -338,6 +416,12 @@ def bloqueoVisitantes(pOpcion, ventMain):
 
 # Ventana menú
 def menuVentana():
+    """
+    Funcionalidad: despliega la ventana con el menú principal
+    Entrada: N/A
+    Salida: retorna la función de acuerdo a la opción presionada
+            por el botón
+    """
     global diccAstros, visitantes
     app = ctk.CTk()
     app.geometry(f"{525}x{515}")
@@ -434,7 +518,7 @@ def menuVentana():
                                  fg_color="grey",
                                  text_font=fuenteBotonesMenu,
                                  text="Salir",
-                                 command=lambda: print(diccAstros, visitantes))
+                                 command=lambda: app.destroy())
     boton8.grid(row = 8, column=0, padx=5, pady=5, ipadx=15, ipady=15, columnspan=2)
     app.mainloop()
 

@@ -34,18 +34,25 @@ def retornaVisitante(pCedula, pVisitantes):
             return visitante
     return []
 
-def esCedula(cedula):
+def esCedula(pCedula):
     """
     Funcionalidad: valida que la cédula cumpla con el formato
-    Entradas: cedula (str)
+    Entradas: pCedula (str)
     Salidas: True/False (bool)
     """
-    if re.match(r"^[1-9](0[0-9]{3}){2}", cedula) == None: # Si cumple el formato de cédula en
+    if re.match(r"^[1-9](0[0-9]{3}){2}", pCedula) == None: # Si cumple el formato de cédula en
                                                           # en CR, retorna True
         return False
     return True
 
 def validaMensajeExito(pCedula, pVisitantes):
+    """
+    Funcionalidad: comprueba que sea una cédula y que exista en
+                   el registro de visitantes
+    Entrada: pCedula (str) 
+             pVisitantes (list)
+    Salida: True/False (bool)
+    """
     if esCedula(pCedula) and esVisitante(int(pCedula), pVisitantes):
         return True
     return False
@@ -56,6 +63,7 @@ def crearDiccAstronomosAux(cantAstros, diccAstros):
     """
     Funcionalidad: comprueba datos de entrada
     Entradas: cantAstros (int): 0 < cantAstros <= 50
+              diccAstros (dict)
     Salidas: resultado crearDiccAstronomos(cantAstros)
     """
     if not esEntero(cantAstros):
@@ -83,7 +91,7 @@ def darBajaVisitAux(pCedula, pVisitantes):
     """
     Funcionalidad: comprueba datos de entrada
     Entradas: pCedula (str)
-              pVisitantes (dict)
+              pVisitantes (list)
     Salidas: resultado darBajaVisit(int(pCedula), pVisitantes)
     """
     if not esCedula(pCedula):
@@ -100,7 +108,7 @@ def reporteVisitanteAux(pCedula, pVisitantes, pAstronomos):
     """
     Funcionalidad: comprueba datos de entrada
     Entradas: pCedula (str)
-              pVisitantes (dict)
+              pVisitantes (list)
     Salidas: resultado darBajaVisit(int(pCedula), pVisitantes)
     """
     if not esCedula(pCedula):
@@ -125,6 +133,14 @@ No se necesita crear
 
 # Reporte astrónomos
 def reporteAstrosRangoAux(pAstronomos, pPrimerAnno, pSegundoAnno):
+    """
+    Funcionalidad: 
+    Entradas: pAstronomos (dict)
+              pPrimerAnno (str)
+              pSegundoAnno (str)
+    Salidas: resultado reporteAstrosRango(pAstronomos, 
+    int(pPrimerAnno), int(pSegundoAnno))
+    """
     if not esEntero(pPrimerAnno):
         return messagebox.showerror("Año incorrecto", 
         "Digite un número de año correcto (mayor a 0).")
