@@ -6,6 +6,7 @@ import random
 import nasapy
 from datetime import date
 from BDVisitantes import *
+from entradas import *
 k="jghymCiVrWmRMuT7KImJRYihHID8JcRRGwf2JnLm"
 
 nasa = nasapy.Nasa(key=k)
@@ -34,6 +35,8 @@ def bibliotecaDigital(matrizvisitantes):
     return matrizvisitantes
 
 
-matriz=insertarVisitantesES()
+#matriz=insertarVisitantesES()
 
-print(bibliotecaDigital(matriz))
+visitantes2 = bibliotecaDigital(visitantes)
+for i in visitantes2:
+    print(i[3][0])

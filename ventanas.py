@@ -203,6 +203,43 @@ def reporteAstrosRangoVent(diccAstros, ventanaMain):
                                  command=reporteAstrosRangoVent.destroy)
     botonSalir.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
 
+def reporteBibliotecaTipoVent(visitantes, ventanaMain):
+    reporteBibliotecaTipoVent = ctk.CTkToplevel(ventanaMain)
+    reporteBibliotecaTipoVent.geometry("400x200")
+    reporteBibliotecaTipoVent.title("Reporte biblioteca tipo")
+    titulo = ctk.CTkLabel(reporteBibliotecaTipoVent, text="Reporte biblioteca según tipo", 
+    text_font=("Helvetica", 20))
+    titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
+    subTitulo = ctk.CTkLabel(reporteBibliotecaTipoVent, 
+    text="Presione el tipo de contenido que desea:",
+    text_font=("Helvetica", 12))
+    subTitulo.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
+    opcionTipo = ctk.IntVar(value=1)
+    imagenTipo = ctk.CTkRadioButton(master=reporteBibliotecaTipoVent, text="Imagen",
+                                        command=lambda: print(1), variable= opcionTipo, value=1)
+    imagenTipo.place(relx=0.5, rely=0.4, anchor=tk.CENTER)
+    videoTipo = ctk.CTkRadioButton(master=reporteBibliotecaTipoVent, text="Video",
+                                        command=lambda: print(2), variable= opcionTipo, value=2)
+    videoTipo.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
+    botonReporte = ctk.CTkButton(master=reporteBibliotecaTipoVent,
+                                 width=120,
+                                 height=32,
+                                 corner_radius=8,
+                                 fg_color="grey",
+                                 text_font=("Helvetica", 12),
+                                 text="Crear",
+                                 command=lambda: print(1))
+    botonReporte.place(relx=0.3, rely=0.7, anchor=tk.CENTER)
+    botonSalir = ctk.CTkButton(master=reporteBibliotecaTipoVent,
+                                 width=120,
+                                 height=32,
+                                 corner_radius=8,
+                                 fg_color="grey",
+                                 text_font=("Helvetica", 12),
+                                 text="Regresar",
+                                 command=reporteBibliotecaTipoVent.destroy)
+    botonSalir.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
+
 def devuelveReporte(pOpcion, ventanaMain):
     global visitantes, diccAstros, visitantesLleno
     if pOpcion == 0:
@@ -219,7 +256,7 @@ def devuelveReporte(pOpcion, ventanaMain):
         messagebox.showinfo("Reporte creado", "El reporte visitantes dados de baja ha sido creado.")
         return reporteVisitBaja(visitantes)
     else:
-        return # Ventana
+        return reporteBibliotecaTipoVent(visitantes, ventanaMain)
 
 def reportesVent(ventanaMain):
     reportesVent = ctk.CTkToplevel(ventanaMain)
@@ -260,9 +297,9 @@ def bloqueoImpAstros(pOpcion, ventMain, diccAstros):
     if len(diccAstros) == 0:
         return messagebox.showinfo("Bloqueo importar astrónomos", "Debe primero importar los astrónomos para acceder a esta opción")
     elif pOpcion == 2:
-        return 2 # Función de cada uno
+        return # Función de cada uno (ventana)
     elif pOpcion == 3:
-        return 3
+        return # Función de cada uno (ventana)
     else:
         return darBajaVent(ventMain)
 
@@ -274,7 +311,7 @@ def bloqueoVisitantes(pOpcion, ventMain):
         messagebox.showinfo("Astrónomos fans", "Los astrónomos han sido agregados exitosamente")
         return asignarAstroFans(visitantes, diccAstros)
     elif pOpcion == 5:
-        return 5
+        return # Función
     else:
         return reportesVent(ventMain)
 
@@ -376,7 +413,7 @@ def menuVentana():
                                  fg_color="grey",
                                  text_font=("Helvetica", 12),
                                  text="Salir",
-                                 command=lambda: print(len(diccAstros), visitantes))
+                                 command=lambda: print(diccAstros, visitantes))
     boton8.grid(row = 8, column=0, padx=5, pady=5, ipadx=15, ipady=15, columnspan=2)
     app.mainloop()
 
