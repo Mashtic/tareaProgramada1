@@ -25,18 +25,24 @@ def bibliotecaDigital(matrizvisitantes):
     for fila in matrizvisitantes:
         listatupla=[]
         lista=[]
-        ultimo=fila[0]%10
-        for i in range (ultimo):
-            d = date(random.randint(2000,2022), random.randint(1, 12), random.randint(1,29)).strftime('%Y-%m-%d')
-            apod= nasa.picture_of_the_day(date=d, hd=True)
-            lista=[apod["title"], apod["date"], apod["explanation"], apod["media_type"], apod["url"]]
-            listatupla.append(tuple(lista))
+        ultimo=(fila[0]%10)
+        print("\n\nCantidad de datos:",ultimo)
+        while len(listatupla) != ultimo:
+            d = date(random.randint(2015,2021), random.randint(1, 12), random.randint(1,28)).strftime('%Y-%m-%d')
+            print("\nFecha: " + str(d))
+            try:
+                apod= nasa.picture_of_the_day(date=d, hd=True)
+                lista=[apod["title"], apod["date"], apod["explanation"], apod["media_type"], apod["url"]]
+                listatupla.append(tuple(lista))
+                print("API: " + str(apod))
+            except:
+                continue
         fila[3]=listatupla
     return matrizvisitantes
 
 
-#matriz=insertarVisitantesES()
+matriz=insertarVisitantesES()
 
-visitantes2 = bibliotecaDigital(visitantes)
+visitantes2 = bibliotecaDigital(matriz)
 for i in visitantes2:
-    print(i[3][0])
+    print(i)
