@@ -12,7 +12,7 @@ from validaciones import *
 from entradas import *
 
 # Funciones globales
-crearVisitantes = (True, True)
+crearVisitantes = (False, False)
 reportes = ["Perfil de un visitante", "Estadística de astrónomos",
                             "Mostrar biblioteca digital", "Reporte de astrónomos", 
                             "Visitantes dados de baja", "Recurso por tipo"]

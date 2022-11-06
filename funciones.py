@@ -198,8 +198,15 @@ def asignarAstroFans(pVisitantes, pAstronomos):
     return pVisitantes
 
 # Función 5. Cargar biblioteca principal
-
-
+def recolectarInfo():
+    listaapod=[]
+    k="jghymCiVrWmRMuT7KImJRYihHID8JcRRGwf2JnLm"
+    nasa = nasapy.Nasa(key=k)
+    for i in range (200):
+            d = date(random.randint(2000,2022), random.randint(1, 12), random.randint(1,29)).strftime('%Y-%m-%d')
+            apod= nasa.picture_of_the_day(date=d, hd=True)
+            lista=[apod["title"], apod["date"], apod["explanation"], apod["media_type"], apod["url"]]
+            listaapod.append(lista)
 
 def bibliotecaDigital(matrizvisitantes):
     """
@@ -353,6 +360,7 @@ def reporteStatsAstros(pVisitantes, pAstronomos):
     return crearArchivoHtml("Reporte estadísticas astronónomos", strTabla)
 
 # Biblioteca digital
+
 def obtenerBibliotecaCompleta(pVisitantes):
     """
     Funcionalidad: crea una lista con los datos de la API utilizados en
