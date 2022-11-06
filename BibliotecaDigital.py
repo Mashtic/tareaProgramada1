@@ -7,7 +7,7 @@ import nasapy
 from datetime import date
 from BDVisitantes import *
 from entradas import *
-k="jghymCiVrWmRMuT7KImJRYihHID8JcRRGwf2JnLm"
+k="f24nnkOORGnEmbG7B7Bp01g6jL4UXQKLRh1kFn6s"
 
 nasa = nasapy.Nasa(key=k)
 
@@ -44,5 +44,3 @@ def bibliotecaDigital(matrizvisitantes):
 matriz=insertarVisitantesES()
 
 visitantes2 = bibliotecaDigital(matriz)
-for i in visitantes2:
-    print(i)
