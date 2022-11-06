@@ -1,6 +1,6 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
 # Fecha de creación: 02/11/2022 09:00 pm
-# Última modificación: 03/11/2022 02:40 am
+# Última modificación: 05/11/2022 10:28 pm
 # Versión: 3.10.8
 
 # Función auxliares

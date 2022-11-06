@@ -1,13 +1,12 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
 # Fecha de creación: 13/10/2022 11:30 am
-# Última modificación: 04/11/2022 04:20 pm
+# Última modificación: 05/11/2022 10:27 pm
 # Versión: 3.10.8
 
 # Importar libreías
 from bs4 import BeautifulSoup
 import requests
 from random import *
-import re
 from tkinter import messagebox
 
 # Función archivos HTML

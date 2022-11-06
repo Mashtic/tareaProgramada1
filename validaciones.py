@@ -1,11 +1,12 @@
 # Creado por: Ian Steven Coto Soto
 # Fecha de creación: 04/11/2022 16:14 pm
-# Última modificación: 04/11/2022 XX:XX pm
+# Última modificación: 05/11/2022 10:53 pm
 # Versión: 3.10.8
 
 # Importar librerías
 from funciones import *
 from tkinter import messagebox
+import re
 
 # Funciones de apoyo
 def esVisitante(pCedula, pVisitantes):

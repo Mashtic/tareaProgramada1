@@ -1,6 +1,6 @@
 # Creado por: Ian Steven Coto Soto
 # Fecha de creación: 03/11/2022 11:00 am
-# Última modificación: 04/11/2022 XX:XX pm
+# Última modificación: 05/11/2022 10:27 pm
 # Versión: 3.10.8
 
 # Importar librerías
@@ -17,6 +17,9 @@ reportes = ["Perfil de un visitante", "Estadística de astrónomos",
                             "Mostrar biblioteca digital", "Reporte de astrónomos", 
                             "Visitantes dados de baja", "Recurso por tipo"]
 diccAstros = {}
+fuenteBotones = ("Helvetica", 10)
+fuenteBotonesMenu = ("Helvetica", 12)
+fuenteTitulo = ("Helvetica", 20)
 
 #------------ Ventanas ------------#
 # Ventana 1. Importar astrónomos
@@ -29,12 +32,12 @@ def impAstrosVent(ventanaMain):
     global diccAstros
     impAstrosVent = ctk.CTkToplevel(ventanaMain)
     impAstrosVent.geometry("400x200")
-    impAstrosVent.title("1. Importar astrónomos")
-    titulo = ctk.CTkLabel(impAstrosVent, text="Importar astrónomos", text_font=("Helvetica", 20))
+    impAstrosVent.title("Importar astrónomos")
+    titulo = ctk.CTkLabel(impAstrosVent, text="Importar astrónomos", text_font=fuenteTitulo)
     titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
     subTitulo = ctk.CTkLabel(impAstrosVent, 
     text="Ingrese la cantidad de astrónomos que desea importar: ",
-    text_font=("Helvetica", 8))
+    text_font=fuenteBotones)
     subTitulo.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
     cantEntry = ctk.CTkEntry(master=impAstrosVent,
                                placeholder_text="0 < Cantidad <= 50",
@@ -48,7 +51,7 @@ def impAstrosVent(ventanaMain):
                                  height=32,
                                  corner_radius=8,
                                  fg_color="grey",
-                                 text_font=("Helvetica", 14),
+                                 text_font=fuenteBotones,
                                  text="Extraer",
                                  command=lambda: crearDiccAstronomosAux(cantEntry.get(), diccAstros))
     botonExtraer.place(relx=0.30, rely=0.7, anchor=tk.CENTER)
@@ -57,7 +60,7 @@ def impAstrosVent(ventanaMain):
                                  height=32,
                                  corner_radius=8,
                                  fg_color="grey",
-                                 text_font=("Helvetica", 12),
+                                 text_font=fuenteBotones,
                                  text="Limpiar",
                                  command=lambda: limpiarDiccAstros(diccAstros))
     botonLimpiar.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
@@ -66,14 +69,14 @@ def impAstrosVent(ventanaMain):
                                  height=32,
                                  corner_radius=8,
                                  fg_color="grey",
-                                 text_font=("Helvetica", 12),
+                                 text_font=fuenteBotones,
                                  text="Regresar",
                                  command=lambda: impAstrosVent.destroy())
     botonSalir.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
 
 # Ventana 6. Dar de baja
 def confirmarBaja(pCedula):
-    confirmar = messagebox.askquestion('Confirmación baja', '¿Está seguro de seguir con el proceso?',
+    confirmar = messagebox.askquestion('Confirmar baja', '¿Está seguro de seguir con el proceso?',
                                         icon='warning')
     if confirmar == 'yes':
         if validaMensajeExito(pCedula, visitantes):
@@ -85,12 +88,12 @@ def confirmarBaja(pCedula):
 def darBajaVent(ventanaMain):
     darBajaVent = ctk.CTkToplevel(ventanaMain)
     darBajaVent.geometry("400x200")
-    darBajaVent.title("6. Dar de baja")
-    titulo = ctk.CTkLabel(darBajaVent, text="Dar de baja", text_font=("Helvetica", 20))
+    darBajaVent.title("Dar de baja")
+    titulo = ctk.CTkLabel(darBajaVent, text="Dar de baja", text_font=fuenteTitulo)
     titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
     subTitulo = ctk.CTkLabel(darBajaVent, 
     text="Digite el número de cédula: ",
-    text_font=("Helvetica", 12))
+    text_font=fuenteBotonesMenu)
     subTitulo.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
     cantEntry = ctk.CTkEntry(master=darBajaVent,
                                placeholder_text="Cédula",
@@ -104,7 +107,7 @@ def darBajaVent(ventanaMain):
                                  height=32,
                                  corner_radius=8,
                                  fg_color="grey",
-                                 text_font=("Helvetica", 12),
+                                 text_font=fuenteBotones,
                                  text="Baja",
                                  command=lambda: confirmarBaja(cantEntry.get()))
     botonBaja.place(relx=0.30, rely=0.7, anchor=tk.CENTER)
@@ -113,7 +116,7 @@ def darBajaVent(ventanaMain):
                                  height=32,
                                  corner_radius=8,
                                  fg_color="grey",
-                                 text_font=("Helvetica", 12),
+                                 text_font=fuenteBotones,
                                  text="Regresar",
                                  command=darBajaVent.destroy)
     botonSalir.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
@@ -126,11 +129,11 @@ def reporteVisitanteVent(visitantes, ventanaMain):
     reporteVisitanteVent = ctk.CTkToplevel(ventanaMain)
     reporteVisitanteVent.geometry("400x200")
     reporteVisitanteVent.title("Reporte visitante")
-    titulo = ctk.CTkLabel(reporteVisitanteVent, text="Reporte visitante", text_font=("Helvetica", 20))
+    titulo = ctk.CTkLabel(reporteVisitanteVent, text="Reporte visitante", text_font=fuenteTitulo)
     titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
     subTitulo = ctk.CTkLabel(reporteVisitanteVent, 
-    text="Digite el número de cédula: ",
-    text_font=("Helvetica", 12))
+    text="Digite el número de cédula:",
+    text_font=fuenteBotones)
     subTitulo.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
     cantEntry = ctk.CTkEntry(master=reporteVisitanteVent,
                                placeholder_text="Cédula",
@@ -144,8 +147,8 @@ def reporteVisitanteVent(visitantes, ventanaMain):
                                  height=32,
                                  corner_radius=8,
                                  fg_color="grey",
-                                 text_font=("Helvetica", 12),
-                                 text="Baja",
+                                 text_font=fuenteBotones,
+                                 text="Crear",
                                  command=lambda: reporteVisitanteAux(cantEntry.get(), visitantes, diccAstros))
     botonReporte.place(relx=0.30, rely=0.7, anchor=tk.CENTER)
     botonSalir = ctk.CTkButton(master=reporteVisitanteVent,
@@ -153,7 +156,7 @@ def reporteVisitanteVent(visitantes, ventanaMain):
                                  height=32,
                                  corner_radius=8,
                                  fg_color="grey",
-                                 text_font=("Helvetica", 12),
+                                 text_font=fuenteBotones,
                                  text="Regresar",
                                  command=reporteVisitanteVent.destroy)
     botonSalir.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
@@ -163,11 +166,11 @@ def reporteAstrosRangoVent(diccAstros, ventanaMain):
     reporteAstrosRangoVent.geometry("400x200")
     reporteAstrosRangoVent.title("Reporte astrónomos")
     titulo = ctk.CTkLabel(reporteAstrosRangoVent, text="Reporte astrónomos según nacimiento", 
-    text_font=("Helvetica", 20))
+    text_font=fuenteTitulo)
     titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
     subTitulo = ctk.CTkLabel(reporteAstrosRangoVent, 
     text="Digite el rango de nacimiento: ",
-    text_font=("Helvetica", 12))
+    text_font=fuenteBotones)
     subTitulo.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
     annoUnoEntry = ctk.CTkEntry(master=reporteAstrosRangoVent,
                                placeholder_text="Primer año",
@@ -188,7 +191,7 @@ def reporteAstrosRangoVent(diccAstros, ventanaMain):
                                  height=32,
                                  corner_radius=8,
                                  fg_color="grey",
-                                 text_font=("Helvetica", 12),
+                                 text_font=fuenteBotones,
                                  text="Crear",
                                  command=lambda: reporteAstrosRangoAux(diccAstros, 
                                  annoUnoEntry.get(), annoDosEntry.get()))
@@ -198,7 +201,7 @@ def reporteAstrosRangoVent(diccAstros, ventanaMain):
                                  height=32,
                                  corner_radius=8,
                                  fg_color="grey",
-                                 text_font=("Helvetica", 12),
+                                 text_font=fuenteBotones,
                                  text="Regresar",
                                  command=reporteAstrosRangoVent.destroy)
     botonSalir.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
@@ -208,11 +211,11 @@ def reporteBibliotecaTipoVent(visitantes, ventanaMain):
     reporteBibliotecaTipoVent.geometry("400x200")
     reporteBibliotecaTipoVent.title("Reporte biblioteca tipo")
     titulo = ctk.CTkLabel(reporteBibliotecaTipoVent, text="Reporte biblioteca según tipo", 
-    text_font=("Helvetica", 20))
+    text_font=fuenteTitulo)
     titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
     subTitulo = ctk.CTkLabel(reporteBibliotecaTipoVent, 
     text="Presione el tipo de contenido que desea:",
-    text_font=("Helvetica", 12))
+    text_font=fuenteBotones)
     subTitulo.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
     opcionTipo = ctk.StringVar(value="image")
     imagenTipo = ctk.CTkRadioButton(master=reporteBibliotecaTipoVent, text="Imagen",
@@ -220,22 +223,22 @@ def reporteBibliotecaTipoVent(visitantes, ventanaMain):
     imagenTipo.place(relx=0.5, rely=0.4, anchor=tk.CENTER)
     videoTipo = ctk.CTkRadioButton(master=reporteBibliotecaTipoVent, text="Video",
                                     variable= opcionTipo, value="video")
-    videoTipo.place(relx=0.5, rely=0.55, anchor=tk.CENTER)
+    videoTipo.place(relx=0.5, rely=0.525, anchor=tk.CENTER)
     botonReporte = ctk.CTkButton(master=reporteBibliotecaTipoVent,
                                  width=120,
                                  height=32,
                                  corner_radius=8,
                                  fg_color="grey",
-                                 text_font=("Helvetica", 12),
+                                 text_font=fuenteBotones,
                                  text="Crear",
-                                 command=lambda: reporteBibliotecaTipo(opcionTipo.get(), visitantesLleno))
+                                 command=lambda: reporteBibliotecaTipo(opcionTipo.get(), visitantes))
     botonReporte.place(relx=0.3, rely=0.7, anchor=tk.CENTER)
     botonSalir = ctk.CTkButton(master=reporteBibliotecaTipoVent,
                                  width=120,
                                  height=32,
                                  corner_radius=8,
                                  fg_color="grey",
-                                 text_font=("Helvetica", 12),
+                                 text_font=fuenteBotones,
                                  text="Regresar",
                                  command=reporteBibliotecaTipoVent.destroy)
     botonSalir.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
@@ -261,12 +264,12 @@ def devuelveReporte(pOpcion, ventanaMain):
 def reportesVent(ventanaMain):
     reportesVent = ctk.CTkToplevel(ventanaMain)
     reportesVent.geometry("400x200")
-    reportesVent.title("7. Reportes")
-    titulo = ctk.CTkLabel(reportesVent, text="Reportes", text_font=("Helvetica", 20))
+    reportesVent.title("Reportes")
+    titulo = ctk.CTkLabel(reportesVent, text="Reportes HTML", text_font=fuenteTitulo)
     titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
     subTitulo = ctk.CTkLabel(reportesVent, 
     text="Seleccione el reporte que quiere obtener",
-    text_font=("Helvetica", 12))
+    text_font=fuenteBotones)
     subTitulo.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
     opcionReportes = ctk.StringVar(value="Visitantes dados de baja")  # set initial value
     opcionesSeleccion = ctk.CTkComboBox(master=reportesVent,
@@ -279,8 +282,8 @@ def reportesVent(ventanaMain):
                                  height=32,
                                  corner_radius=8,
                                  fg_color="grey",
-                                 text_font=("Helvetica", 12),
-                                 text="Crear / Ir",
+                                 text_font=fuenteBotones,
+                                 text="Crear",
                                  command=lambda: devuelveReporte(cambiarOpcionInt(opcionReportes.get()), ventanaMain))
     botonReporte.place(relx=0.30, rely=0.7, anchor=tk.CENTER)
     botonSalir = ctk.CTkButton(master=reportesVent,
@@ -288,7 +291,7 @@ def reportesVent(ventanaMain):
                                  height=32,
                                  corner_radius=8,
                                  fg_color="grey",
-                                 text_font=("Helvetica", 12),
+                                 text_font=fuenteBotones,
                                  text="Regresar",
                                  command=reportesVent.destroy)
     botonSalir.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
@@ -296,7 +299,8 @@ def reportesVent(ventanaMain):
 # Bloque/Desbloqueo botones
 def bloqueoImpAstros(pOpcion, ventMain, diccAstros):
     if len(diccAstros) == 0:
-        return messagebox.showinfo("Bloqueo importar astrónomos", "Debe primero importar los astrónomos para acceder a esta opción")
+        return messagebox.showinfo("Bloqueo importar astrónomos", 
+        "Debe primero importar los astrónomos para acceder a esta opción")
     elif pOpcion == 2:
         return 2 # Función de cada uno
     elif pOpcion == 3:
@@ -307,7 +311,8 @@ def bloqueoImpAstros(pOpcion, ventMain, diccAstros):
 def bloqueoVisitantes(pOpcion, ventMain):
     global diccAstros, visitantes
     if crearVisitantes[0] == False or crearVisitantes[1] == False:
-        messagebox.showinfo("Bloqueo visitantes", "Debe primero crear los visitantes del botón 2 y 3")
+        messagebox.showinfo("Bloqueo visitantes", 
+        "Debe primero crear los visitantes del botón 2 y 3")
     elif pOpcion == 4:
         messagebox.showinfo("Astrónomos fans", "Los astrónomos han sido agregados exitosamente")
         return asignarAstroFans(visitantes, diccAstros)
@@ -344,7 +349,7 @@ def menuVentana():
                                  height=32,
                                  corner_radius=8,
                                  fg_color="grey",
-                                 text_font=("Helvetica", 12),
+                                 text_font=fuenteBotonesMenu,
                                  text="1. Importar astrónomos",
                                  command=lambda: impAstrosVent(app))
     boton1.grid(row = 3, column = 0, padx=5, pady=5, ipadx=15, ipady=10)
@@ -353,7 +358,7 @@ def menuVentana():
                                  height=32,
                                  corner_radius=8,
                                  fg_color="grey",
-                                 text_font=("Helvetica", 12),
+                                 text_font=fuenteBotonesMenu,
                                  text="2. Crear un visitante",
                                  command=lambda: bloqueoImpAstros(2, app, diccAstros))
     boton2.grid(row =3, column = 1, padx=5, pady=5, ipadx=15, ipady=10)
@@ -362,7 +367,7 @@ def menuVentana():
                                  height=32,
                                  corner_radius=8,
                                  fg_color="grey",
-                                 text_font=("Helvetica", 12),
+                                 text_font=fuenteBotonesMenu,
                                  text="3. Crear BD de visitantes",
                                  command=lambda: bloqueoImpAstros(3, app, diccAstros))
     boton3.grid(row = 4, column = 0, padx=5, pady=5, ipadx=15, ipady=10)
@@ -371,7 +376,7 @@ def menuVentana():
                                  height=32,
                                  corner_radius=8,
                                  fg_color="grey",
-                                 text_font=("Helvetica", 12),
+                                 text_font=fuenteBotonesMenu,
                                  text="4. Asignar Astrónomos Fans",
                                  command=lambda: bloqueoVisitantes(4, app))
     boton4.grid(row = 4, column=1, padx=5, pady=5, ipadx=15, ipady=10)
@@ -380,7 +385,7 @@ def menuVentana():
                                  height=32,
                                  corner_radius=8,
                                  fg_color="grey",
-                                 text_font=("Helvetica", 12),
+                                 text_font=fuenteBotonesMenu,
                                  text="5. Cargar biblioteca digital",
                                  command=lambda: bloqueoVisitantes(5, app))
     boton5.grid(row = 5, column=0, padx=5, pady=5, ipadx=15, ipady=10)
@@ -389,7 +394,7 @@ def menuVentana():
                                  height=32,
                                  corner_radius=8,
                                  fg_color="grey",
-                                 text_font=("Helvetica", 12),
+                                 text_font=fuenteBotonesMenu,
                                  text="6. Dar de baja",
                                  command=lambda: bloqueoImpAstros(6, app, diccAstros))
     boton6.grid(row = 5, column=1, padx=5, pady=5, ipadx=15, ipady=10)
@@ -398,7 +403,7 @@ def menuVentana():
                                  height=32,
                                  corner_radius=8,
                                  fg_color="grey",
-                                 text_font=("Helvetica", 12),
+                                 text_font=fuenteBotonesMenu,
                                  text="7. Reportes",
                                  command=lambda: bloqueoVisitantes(7, app))
     boton7.grid(row = 6, column=0, padx=5, pady=5, ipadx=15, ipady=15, columnspan=2)
@@ -412,7 +417,7 @@ def menuVentana():
                                  height=32,
                                  corner_radius=8,
                                  fg_color="grey",
-                                 text_font=("Helvetica", 12),
+                                 text_font=fuenteBotonesMenu,
                                  text="Salir",
                                  command=lambda: print(diccAstros, visitantes))
     boton8.grid(row = 8, column=0, padx=5, pady=5, ipadx=15, ipady=15, columnspan=2)
