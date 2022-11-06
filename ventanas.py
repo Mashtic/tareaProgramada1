@@ -9,14 +9,16 @@ import customtkinter as ctk
 from tkinter import messagebox
 from funciones import *
 from validaciones import *
-from entradas import *
+# from entradas import *
 
 # Funciones globales
-crearVisitantes = (False, False)
 reportes = ["Perfil de un visitante", "Estadística de astrónomos",
                             "Mostrar biblioteca digital", "Reporte de astrónomos", 
                             "Visitantes dados de baja", "Recurso por tipo"]
+datosNasa = []
+#datosNasa = importarDatosNasa() # Cuando se copien las funciones en los otros archivos, se descomenta                   
 diccAstros = {}
+visitantes = []
 fuenteBotones = ("Helvetica", 10)
 fuenteBotonesMenu = ("Helvetica", 12)
 fuenteTitulo = ("Helvetica", 20)
@@ -393,7 +395,7 @@ def bloqueoImpAstros(pOpcion, ventMain, diccAstros):
     else:
         return darBajaVent(ventMain)
 
-def bloqueoVisitantes(pOpcion, ventMain):
+def bloqueoVisitantes(pOpcion, ventMain, visitante):
     """
     Funcionalidad: bloquea los botones 4, 5 y 7, si el 2 y 3
                    no ha sido activado o el diccAstros está vacío
@@ -402,7 +404,7 @@ def bloqueoVisitantes(pOpcion, ventMain):
     Salida: retorna la función de acuerdo a la opción
     """
     global diccAstros, visitantes
-    if crearVisitantes[0] == False or crearVisitantes[1] == False:
+    if len(visitante) == 0:
         messagebox.showinfo("Bloqueo visitantes", 
         "Debe primero crear los visitantes del botón 2 y 3.")
     elif pOpcion == 4:
