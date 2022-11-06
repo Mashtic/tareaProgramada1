@@ -49,6 +49,19 @@ def validaMensajeExito(pCedula, pVisitantes):
         return True
     return False
 
+def validarNombre(nombre):
+    """
+    Funcionalidad: valida que el formato del nombre esté correcto
+    Entradas: nombre (tuple)
+    Salidas: nombre(tuple) o recibirNombreES()
+    """
+    nombre=list(nombre)
+    for i in nombre:
+        if re.findall("[^a-zA-ZáéíóúÁÉÍÓÚ]", i):
+            return messagebox.showerror("El nombre, primero apellido o segundo apellido tiene carctéres no validos")
+    return tuple(nombre)
+
+
 # Funciones auxiliares
 # Función 1. Importar astrotónomos
 def crearDiccAstronomosAux(cantAstros, diccAstros):
@@ -68,7 +81,58 @@ def crearDiccAstronomosAux(cantAstros, diccAstros):
     return crearDiccAstronomos(int(cantAstros), diccAstros)
 
 # Función 2. Crear visitante
+
+def recibirCedulaAux(cedula):
+    """
+    Funcionalidad: valida las entradas
+    Entradas: cedula (str)
+    Salidas: cedula (int) o recibirCedulaES()
+    """
+    global matrizvisitantes
+    if esCedula(cedula)==True:
+        return cedula
+    else:
+        return messagebox.showerror("La cédula introducida tiene un formato incorrecto")
+
+def recibirNombreAux(nombre):
+    """
+    Funcionalidad: valida las entradas
+    Entradas: nombre (str)
+    Salidas: tuplanombre (tuple)
+    """
+    listanombre=nombre.split(" ")
+    tuplanombre=validarNombre(tuple(listanombre))
+    return tuplanombre
+
+def validarCrearVisitantes(matrizvisitantes, cedula, nombre):
+    """
+    Funcionalidad: valida las entradas
+    Entradas: nombre (str), cedula (int), matrizvisitantes(list)
+    Salidas: resultado de crearVisitante
+    """
+    tuplanombre=recibirNombreAux(nombre)
+    cedularev=recibirCedulaAux(cedula)
+    messagebox.showinfo("Visitante creado", 
+        "El visitante " + nombre +" "+ cedula + " ha sido creado.")
+    return crearVisitante(matrizvisitantes, cedularev, tuplanombre)
+
+
 # Función 3. Crear DB visitantes
+
+def insertarVisitantesAux(matrizvisitantes, cant):
+    """
+    Funcionalidad: valida datos de entrada
+    Entradas: matrizvisitantes (list), cant (int) (cant > 0 o cant <=1000)
+    Salidas: resultado insertarVisitantes(cant) (list)
+    """
+    if esEntero(cant):    
+        if (0 < int(cant) <= 1000): # Equipos tradicionales de máximo 1000 personas y mínimo 1
+            messagebox.showinfo("Se crearon los visitantes", "Se crearon "+cant+" nuevos visitantes.")
+            return insertarVisitantes(matrizvisitantes, int(cant))
+        return messagebox.showerror("Cantidad de visitantes inválida","Debe digitar una cantidad de miembros entre 1 y 1000.")
+    else:
+        return messagebox.showerror("Tipo de cantidad inválida","La cantidad de visitantes debe ser un número entero positivo.")
+
 # Función 4. Asignar astrónomos fans 
 """
 No se necesita validar ya que el bloqueo del botón ocurre cuando no se han importado
@@ -76,6 +140,10 @@ astrónomos, por tanto, no ocurren errores
 """
 
 # Función 5. Biblioteca digital
+
+"""
+No se necesita validar ya que la información ya se encuentra validada en la matriz de los visitantes.
+"""
 
 # Función 6. Dar de baja
 def darBajaVisitAux(pCedula, pVisitantes):

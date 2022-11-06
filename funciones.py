@@ -8,6 +8,10 @@ from bs4 import BeautifulSoup
 import requests
 from random import *
 import re
+import nasapy
+from datetime import date
+from BDVisitantes import *
+from names import *
 
 # Función archivos HTML
 def crearArchivoHtml(pNombre, pInfo):
@@ -128,6 +132,33 @@ def crearDiccAstronomos(cantAstros, diccAstros):
         valoresAstro.pop(posAstro)
         numAstro += 1
     return diccAstros
+# Función 2. Crear un visitante
+
+def crearVisitante(matrizvisitantes, cedula, nombre):
+    """
+    Funcionalidad: Añade el nuevo visitante a la matriz existente
+    Entradas: matrizvisitantes(list), cedula (int), nombre (int)
+    Salidas: matrizvisitantes
+    """
+    listavisitante=[cedula, nombre, [], [], True]
+    matrizvisitantes.append(listavisitante)
+    return matrizvisitantes
+
+# Función 3. Crear BD de visitantes
+
+def insertarVisitantes(matrizvisitantes, cant):
+    """
+    Funcionalidad: crea una matriz de visitantes
+    Entradas: matrizvisitantes (list), cant (int)
+    Salidas: matrizvisitantes (list)
+    """
+    listavisitantes=[]
+    for i in range(cant):
+        num=(random.randint(1, 999))+(10000*random.randint(1, 999))+(100000000*random.randint(1,9))
+        listavisitantes=[num, (get_first_name(), get_last_name(), get_last_name()), 
+        [], [], bool(random.getrandbits(1))]
+        matrizvisitantes.append(listavisitantes)
+    return matrizvisitantes
 
 # Función 4. Asignar astrónomos fans
 def asignarAstros(pNumProvincia, codAstros):
@@ -165,6 +196,37 @@ def asignarAstroFans(pVisitantes, pAstronomos):
                                                                          # con códigos a cada 
                                                                          # visitante
     return pVisitantes
+
+# Función 5. Cargar biblioteca principal
+
+
+
+def bibliotecaDigital(matrizvisitantes):
+    """
+    F: Función que tomando ahora el último número de la cédula de cada registro de la matriz principal, 
+    llene la lista de tuplas con esa cantidad de información extraída del API. Recorra toda la matriz y llene todos los 
+    campos (titulo, fecha, explicación, tipo de archivo y url) respectivamente. 
+    E: matrizvisitantes (list)
+    S: listatupla(list), contiene los datos por visitante.
+
+    """
+    k="jghymCiVrWmRMuT7KImJRYihHID8JcRRGwf2JnLm"
+    nasa = nasapy.Nasa(key=k)
+
+    for fila in matrizvisitantes:
+        listatupla=[]
+        lista=[]
+        ultimo=fila[0]%10
+        for i in range (ultimo):
+            d = date(random.randint(2000,2022), random.randint(1, 12), random.randint(1,29)).strftime('%Y-%m-%d')
+            apod= nasa.picture_of_the_day(date=d, hd=True)
+            lista=[apod["title"], apod["date"], apod["explanation"], apod["media_type"], apod["url"]]
+            listatupla.append(tuple(lista))
+        fila[3]=listatupla
+    return matrizvisitantes
+
+
+
 
 # Función 6. Dar de baja
 def darBajaVisit(pCedula, pVisitantes):

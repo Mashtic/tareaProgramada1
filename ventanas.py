@@ -71,6 +71,102 @@ def impAstrosVent(ventanaMain):
                                  command=lambda: impAstrosVent.destroy())
     botonSalir.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
 
+# ventana 2. Crear un visitante
+
+def crearVisitanteVent(ventanaMain, matrizvisitantes):
+    """
+    Funcionalidad: Crea la ventana para la función de crear visitante, con los botones y opciones para ingresar los datos requeridos.
+    Entradas: ventanamain, matrizvisitante(list)
+    Salidas: resultado validarCrearVisitantes
+    """
+    crearVisitanteVent=ctk.CTkToplevel(ventanaMain)
+    crearVisitanteVent.geometry("400x200")
+    crearVisitanteVent.title("2. Crear Visitante")
+    titulo= ctk.CTkLabel(crearVisitanteVent, text="Crear Visitante", text_font=("Helvetica", 20))
+    titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
+    subtitulo =ctk.CTkLabel(crearVisitanteVent,
+    text="Digite el número de cédula y el nombre",
+    text_font=("Helvetica", 8))
+    subtitulo.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
+    cedula = ctk.CTkEntry(master=crearVisitanteVent,
+                               placeholder_text="305260967",
+                               width=125,
+                               height=35,
+                               border_width=2,
+                               corner_radius=10)
+    cedula.place(relx=0.5, rely=0.45, anchor=tk.CENTER)
+    nombre=ctk.CTkEntry(master=crearVisitanteVent,
+                               placeholder_text="Fabian Araya Ortega",
+                               width=125,
+                               height=35,
+                               border_width=2,
+                               corner_radius=10)
+    nombre.place(relx=0.30, rely=0.7, anchor=tk.CENTER)
+    botonContinuar= ctk.CTkButton(master= crearVisitanteVent, 
+                                width=110,
+                                height=32,
+                                corner_radius=8,
+                                fg_color="grey",
+                                text_font=("Helvetica", 14),
+                                text="Continuar",
+                                command=lambda: validarCrearVisitantes(matrizvisitantes, cedula.get(), nombre.get()))
+    botonContinuar.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
+    botonSalir = ctk.CTkButton(master=crearVisitanteVent,
+                                 width=120,
+                                 height=32,
+                                 corner_radius=8,
+                                 fg_color="grey",
+                                 text_font=("Helvetica", 12),
+                                 text="Regresar",
+                                 command=lambda: crearVisitanteVent.destroy())
+    botonSalir.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
+
+# ventana 3. Crear base de datos de visitantes
+
+def crearBDVisitanteVent(ventanaMain, matrizvisitantes):
+    """
+    Funcionalidad: Crea la ventana para la función de crear base de datos de los visitantes, con los botones y opciones para ingresar los datos requeridos.
+    Entradas: ventanamain, matrizvisitante(list)
+    Salidas: resultado insertarrVisitantesAux 
+    """
+    crearBDVisitanteVent=ctk.CTkToplevel(ventanaMain)
+    crearBDVisitanteVent.geometry("400x200")
+    crearBDVisitanteVent.title("2. Crear Base de datos de visitantes")
+    titulo= ctk.CTkLabel(crearBDVisitanteVent, text="Crear Base de datos de visitantes", text_font=("Helvetica", 20))
+    titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
+    subtitulo =ctk.CTkLabel(crearBDVisitanteVent,
+    text="Digite la cantidad de visitantes",
+    text_font=("Helvetica", 8))
+    subtitulo.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
+    cant = ctk.CTkEntry(master=crearBDVisitanteVent,
+                               placeholder_text="0 < cantidad <=1000",
+                               width=125,
+                               height=35,
+                               border_width=2,
+                               corner_radius=10)
+    cant.place(relx=0.5, rely=0.45, anchor=tk.CENTER)
+    botonContinuar= ctk.CTkButton(master= crearBDVisitanteVent, 
+                                width=110,
+                                height=32,
+                                corner_radius=8,
+                                fg_color="grey",
+                                text_font=("Helvetica", 14),
+                                text="Continuar",
+                                command=lambda: insertarVisitantesAux(matrizvisitantes, cant.get()))
+    botonContinuar.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
+    botonSalir = ctk.CTkButton(master=crearBDVisitanteVent,
+                                 width=120,
+                                 height=32,
+                                 corner_radius=8,
+                                 fg_color="grey",
+                                 text_font=("Helvetica", 12),
+                                 text="Regresar",
+                                 command=lambda: crearBDVisitanteVent.destroy())
+    botonSalir.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
+
+#4 Ventana. BibliotecaDigital
+def bibliotecaDigitalVent(matrizvisitantes):
+    bibliotecaDigital(matrizvisitantes)
 # Ventana 6. Dar de baja
 def confirmarBaja(pCedula):
     confirmar = messagebox.askquestion('Confirmación baja', '¿Está seguro de seguir con el proceso?',
@@ -317,7 +413,7 @@ def menuVentana():
                                  fg_color="grey",
                                  text_font=("Helvetica", 12),
                                  text="2. Crear un visitante",
-                                 command=lambda: bloqueoImpAstros(2, app, diccAstros))
+                                 command=lambda: crearVisitanteVent(app, visitantes))
     boton2.grid(row =3, column = 1, padx=5, pady=5, ipadx=15, ipady=10)
     boton3 = ctk.CTkButton(master=app,
                                  width=120,
@@ -326,7 +422,7 @@ def menuVentana():
                                  fg_color="grey",
                                  text_font=("Helvetica", 12),
                                  text="3. Crear BD de visitantes",
-                                 command=lambda: bloqueoImpAstros(3, app, diccAstros))
+                                 command=lambda: crearBDVisitanteVent(app, visitantes))
     boton3.grid(row = 4, column = 0, padx=5, pady=5, ipadx=15, ipady=10)
     boton4 = ctk.CTkButton(master=app,
                                  width=120,
@@ -344,7 +440,7 @@ def menuVentana():
                                  fg_color="grey",
                                  text_font=("Helvetica", 12),
                                  text="5. Cargar biblioteca digital",
-                                 command=lambda: bloqueoVisitantes(5, app))
+                                 command=lambda: bibliotecaDigitalVent(visitantes))
     boton5.grid(row = 5, column=0, padx=5, pady=5, ipadx=15, ipady=10)
     boton6 = ctk.CTkButton(master=app,
                                  width=120,
