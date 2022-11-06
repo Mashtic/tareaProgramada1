@@ -214,13 +214,13 @@ def reporteBibliotecaTipoVent(visitantes, ventanaMain):
     text="Presione el tipo de contenido que desea:",
     text_font=("Helvetica", 12))
     subTitulo.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
-    opcionTipo = ctk.IntVar(value=1)
+    opcionTipo = ctk.StringVar(value="image")
     imagenTipo = ctk.CTkRadioButton(master=reporteBibliotecaTipoVent, text="Imagen",
-                                        command=lambda: print(1), variable= opcionTipo, value=1)
+                                    variable= opcionTipo, value="image")
     imagenTipo.place(relx=0.5, rely=0.4, anchor=tk.CENTER)
     videoTipo = ctk.CTkRadioButton(master=reporteBibliotecaTipoVent, text="Video",
-                                        command=lambda: print(2), variable= opcionTipo, value=2)
-    videoTipo.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
+                                    variable= opcionTipo, value="video")
+    videoTipo.place(relx=0.5, rely=0.55, anchor=tk.CENTER)
     botonReporte = ctk.CTkButton(master=reporteBibliotecaTipoVent,
                                  width=120,
                                  height=32,
@@ -228,7 +228,7 @@ def reporteBibliotecaTipoVent(visitantes, ventanaMain):
                                  fg_color="grey",
                                  text_font=("Helvetica", 12),
                                  text="Crear",
-                                 command=lambda: print(1))
+                                 command=lambda: reporteBibliotecaTipo(opcionTipo.get(), visitantesLleno))
     botonReporte.place(relx=0.3, rely=0.7, anchor=tk.CENTER)
     botonSalir = ctk.CTkButton(master=reporteBibliotecaTipoVent,
                                  width=120,
@@ -270,8 +270,9 @@ def reportesVent(ventanaMain):
     subTitulo.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
     opcionReportes = ctk.StringVar(value="Visitantes dados de baja")  # set initial value
     opcionesSeleccion = ctk.CTkComboBox(master=reportesVent,
-                            values=reportes,
-                            variable=opcionReportes)
+                                width=200, height=32,
+                                values=reportes,
+                                variable=opcionReportes)
     opcionesSeleccion.place(relx=0.50, rely=0.4, anchor=tk.CENTER)
     botonReporte = ctk.CTkButton(master=reportesVent,
                                  width=120,

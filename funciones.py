@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 import requests
 from random import *
 import re
+from tkinter import messagebox
 
 # Función archivos HTML
 def crearArchivoHtml(pNombre, pInfo):
@@ -399,4 +400,6 @@ def reporteBibliotecaTipo(pTipo, pVisitantes):
     "</title>\n</head> <body><h2>Reporte biblioteca " + pTipo + "</h2>")
     htmlBiblioTipo += "\n</body>" + tablaContenidoNasa(obtenerBibliotecaTipo(pTipo, pVisitantes))
     htmlBiblioTipo += "</html>"
+    messagebox.showinfo("Reporte creado", 
+        "Se ha creado el reporte de la biblioteca de tipo " + pTipo + ".")
     return crearArchivoHtml("Reporte biblioteca " + pTipo, htmlBiblioTipo)
