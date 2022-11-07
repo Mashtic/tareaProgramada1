@@ -58,8 +58,8 @@ def validarNombre(nombre):
     nombre=list(nombre)
     for i in nombre:
         if re.findall("[^a-zA-ZáéíóúÁÉÍÓÚ]", i):
-            return messagebox.showerror("El nombre, primero apellido o segundo apellido tiene carctéres no validos")
-    return tuple(nombre)
+            return False
+    return True
 
 
 # Funciones auxiliares
@@ -81,19 +81,6 @@ def crearDiccAstronomosAux(cantAstros, diccAstros):
     return crearDiccAstronomos(int(cantAstros), diccAstros)
 
 # Función 2. Crear visitante
-
-def recibirCedulaAux(cedula):
-    """
-    Funcionalidad: valida las entradas
-    Entradas: cedula (str)
-    Salidas: cedula (int) o recibirCedulaES()
-    """
-    global matrizvisitantes
-    if esCedula(cedula)==True:
-        return cedula
-    else:
-        return messagebox.showerror("La cédula introducida tiene un formato incorrecto")
-
 def recibirNombreAux(nombre):
     """
     Funcionalidad: valida las entradas
@@ -101,7 +88,7 @@ def recibirNombreAux(nombre):
     Salidas: tuplanombre (tuple)
     """
     listanombre=nombre.split(" ")
-    tuplanombre=validarNombre(tuple(listanombre))
+    tuplanombre=tuple(listanombre)
     return tuplanombre
 
 def validarCrearVisitantes(matrizvisitantes, cedula, nombre):
@@ -110,11 +97,18 @@ def validarCrearVisitantes(matrizvisitantes, cedula, nombre):
     Entradas: nombre (str), cedula (int), matrizvisitantes(list)
     Salidas: resultado de crearVisitante
     """
-    tuplanombre=recibirNombreAux(nombre)
-    cedularev=recibirCedulaAux(cedula)
-    messagebox.showinfo("Visitante creado", 
-        "El visitante " + nombre +" "+ cedula + " ha sido creado.")
-    return crearVisitante(matrizvisitantes, cedularev, tuplanombre)
+    if esCedula(cedula)==False:
+        return messagebox.showerror("Formato incorrecto cédula", "La cédula introducida tiene un formato incorrecto")
+    elif validarNombre(recibirNombreAux(nombre))==False:
+        return messagebox.showerror("Formato incorrecto nombre", "El nombre, primero apellido o segundo apellido tiene carctéres no validos")
+    elif len(recibirNombreAux(nombre))!=3:
+        return messagebox.showerror("Falta información del nombre", "El nombre, primero apellido o segundo apellido hacen falta")
+    elif esVisitante(cedula, matrizvisitantes):
+        return messagebox.showerror("El visitante ya registrado", "El visitante con cedula "+cedula+" ya se encuentra registrado.")
+    else:
+        messagebox.showinfo("Visitante creado", 
+            "El visitante " + nombre +" "+ cedula + " ha sido creado.")
+    return crearVisitante(matrizvisitantes, cedula, recibirNombreAux(nombre))
 
 
 # Función 3. Crear DB visitantes

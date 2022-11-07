@@ -198,39 +198,51 @@ def asignarAstroFans(pVisitantes, pAstronomos):
     return pVisitantes
 
 # Función 5. Cargar biblioteca principal
-def recolectarInfo():
-    listaapod=[]
-    k="jghymCiVrWmRMuT7KImJRYihHID8JcRRGwf2JnLm"
-    nasa = nasapy.Nasa(key=k)
-    for i in range (200):
-            d = date(random.randint(2000,2022), random.randint(1, 12), random.randint(1,29)).strftime('%Y-%m-%d')
-            apod= nasa.picture_of_the_day(date=d, hd=True)
-            lista=[apod["title"], apod["date"], apod["explanation"], apod["media_type"], apod["url"]]
-            listaapod.append(lista)
-
-def bibliotecaDigital(matrizvisitantes):
+def importarDatosNasa():
     """
-    F: Función que tomando ahora el último número de la cédula de cada registro de la matriz principal, 
-    llene la lista de tuplas con esa cantidad de información extraída del API. Recorra toda la matriz y llene todos los 
-    campos (titulo, fecha, explicación, tipo de archivo y url) respectivamente. 
-    E: matrizvisitantes (list)
-    S: listatupla(list), contiene los datos por visitante.
-
+    F: retorna una lista con 100 datos de la API de la NASA
+    E: N/A
+    S: datosNasa (list): contiene los datos
     """
-    k="jghymCiVrWmRMuT7KImJRYihHID8JcRRGwf2JnLm"
-    nasa = nasapy.Nasa(key=k)
-
-    for fila in matrizvisitantes:
-        listatupla=[]
-        lista=[]
-        ultimo=fila[0]%10
-        for i in range (ultimo):
-            d = date(random.randint(2000,2022), random.randint(1, 12), random.randint(1,29)).strftime('%Y-%m-%d')
+    clave="f24nnkOORGnEmbG7B7Bp01g6jL4UXQKLRh1kFn6s"
+    nasa = nasapy.Nasa(key=clave)
+    datosNasa = []
+    for num in range(100):
+        d = date(randint(2015,2021), randint(1, 12), randint(1,28)).strftime('%Y-%m-%d')
+        try:
             apod= nasa.picture_of_the_day(date=d, hd=True)
-            lista=[apod["title"], apod["date"], apod["explanation"], apod["media_type"], apod["url"]]
-            listatupla.append(tuple(lista))
-        fila[3]=listatupla
-    return matrizvisitantes
+            datosNasa.append((apod["title"], apod["date"], apod["explanation"], apod["media_type"], apod["url"]))
+        except:
+            continue
+    return datosNasa
+
+def asignarBibliotecaDigital(pNumUlt, datosNasa):
+    """
+    Funcionalidad: retorna una lista con la cantidad de datos de la NASA igual
+                   a pNumUlt
+    Entradas: pNumUlt (int)
+              datosNasa (list)
+    Salidas: datosNasaPersona (list)
+    """
+    cantDatosNasa = 1
+    datosNasaPersona = []
+    while pNumUlt >= cantDatosNasa:
+        posNasa = randint(0, (len(datosNasa)-1))
+        datosNasaPersona.append(datosNasa[posNasa])
+        datosNasa.pop(posNasa)
+        cantDatosNasa += 1
+    return datosNasaPersona
+
+def bibliotecaDigital(matrizVisitantes, datosNasa):
+    """
+    F: función que introduce los datos de la NASA a cada visitante
+    E: matrizVisitantes (list)
+       datosNasa (list): contiene los datos de NASA
+    S: matrizVisitante (list) (actualizada)
+    """
+    for visitante in matrizVisitantes:
+        visitante[3] = asignarBibliotecaDigital(visitante[0]%10, datosNasa)
+    return matrizVisitantes
 
 
 

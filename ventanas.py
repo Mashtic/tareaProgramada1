@@ -12,12 +12,12 @@ from validaciones import *
 from entradas import *
 
 # Funciones globales
-crearVisitantes = (False, False)
+crearVisitantes = [False, False]
 reportes = ["Perfil de un visitante", "Estadística de astrónomos",
                             "Mostrar biblioteca digital", "Reporte de astrónomos", 
                             "Visitantes dados de baja", "Recurso por tipo"]
 diccAstros = {}
-
+datosNasa=importarDatosNasa()
 #------------ Ventanas ------------#
 # Ventana 1. Importar astrónomos
 
@@ -89,14 +89,14 @@ def crearVisitanteVent(ventanaMain, matrizvisitantes):
     text_font=("Helvetica", 8))
     subtitulo.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
     cedula = ctk.CTkEntry(master=crearVisitanteVent,
-                               placeholder_text="305260967",
+                               placeholder_text="ej. 305260967",
                                width=125,
                                height=35,
                                border_width=2,
                                corner_radius=10)
     cedula.place(relx=0.5, rely=0.45, anchor=tk.CENTER)
     nombre=ctk.CTkEntry(master=crearVisitanteVent,
-                               placeholder_text="Fabian Araya Ortega",
+                               placeholder_text="ej. Fabian Araya Ortega",
                                width=125,
                                height=35,
                                border_width=2,
@@ -165,8 +165,14 @@ def crearBDVisitanteVent(ventanaMain, matrizvisitantes):
     botonSalir.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
 
 #4 Ventana. BibliotecaDigital
-def bibliotecaDigitalVent(matrizvisitantes):
-    bibliotecaDigital(matrizvisitantes)
+def bibliotecaDigitalVent(matrizvisitantes, datosnasa):
+    """
+    Funcionalidad: Crea la ventana para la función de crear base de datos de los visitantes, con los botones y opciones para ingresar los datos requeridos.
+    Entradas: ventanamain, matrizvisitante(list)
+    Salidas: resultado insertarrVisitantesAux 
+    """
+    messagebox.showinfo("Biblioteca Digital creada", "Se agregó la Biblioteca Digital a cada visitante")
+    bibliotecaDigital(matrizvisitantes, datosnasa)
 # Ventana 6. Dar de baja
 def confirmarBaja(pCedula):
     confirmar = messagebox.askquestion('Confirmación baja', '¿Está seguro de seguir con el proceso?',
@@ -389,31 +395,34 @@ def reportesVent(ventanaMain):
     botonSalir.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
 
 # Bloque/Desbloqueo botones
-def bloqueoImpAstros(pOpcion, ventMain, diccAstros):
+def bloqueoImpAstros(pOpcion, ventMain, diccAstros, visitantes):
+    global crearVisitantes
     if len(diccAstros) == 0:
         return messagebox.showinfo("Bloqueo importar astrónomos", "Debe primero importar los astrónomos para acceder a esta opción")
     elif pOpcion == 2:
-        return # Función de cada uno (ventana)
+        crearVisitantes[0]=True
+        return crearVisitanteVent(ventMain, visitantes)
     elif pOpcion == 3:
-        return # Función de cada uno (ventana)
+        crearVisitantes[1]=True
+        return crearBDVisitanteVent(ventMain, visitantes)
     else:
         return darBajaVent(ventMain)
 
 def bloqueoVisitantes(pOpcion, ventMain):
-    global diccAstros, visitantes
+    global diccAstros, visitantes, datosNasa
     if crearVisitantes[0] == False or crearVisitantes[1] == False:
         messagebox.showinfo("Bloqueo visitantes", "Debe primero crear los visitantes del botón 2 y 3")
     elif pOpcion == 4:
         messagebox.showinfo("Astrónomos fans", "Los astrónomos han sido agregados exitosamente")
         return asignarAstroFans(visitantes, diccAstros)
     elif pOpcion == 5:
-        return # Función
+        return bibliotecaDigitalVent(visitantes, datosNasa)
     else:
         return reportesVent(ventMain)
 
 # Ventana menú
 def menuVentana():
-    global diccAstros, visitantes
+    global diccAstros, visitantes, datosNasa
     app = ctk.CTk()
     app.geometry(f"{525}x{515}")
     app.title("AstronoTEC")
@@ -450,7 +459,7 @@ def menuVentana():
                                  fg_color="grey",
                                  text_font=("Helvetica", 12),
                                  text="2. Crear un visitante",
-                                 command=lambda: crearVisitanteVent(app, visitantes))
+                                 command=lambda: bloqueoImpAstros(2, app, diccAstros, visitantes))
     boton2.grid(row =3, column = 1, padx=5, pady=5, ipadx=15, ipady=10)
     boton3 = ctk.CTkButton(master=app,
                                  width=120,
@@ -459,7 +468,7 @@ def menuVentana():
                                  fg_color="grey",
                                  text_font=("Helvetica", 12),
                                  text="3. Crear BD de visitantes",
-                                 command=lambda: crearBDVisitanteVent(app, visitantes))
+                                 command=lambda: bloqueoImpAstros(3, app, diccAstros, visitantes))
     boton3.grid(row = 4, column = 0, padx=5, pady=5, ipadx=15, ipady=10)
     boton4 = ctk.CTkButton(master=app,
                                  width=120,
@@ -477,7 +486,7 @@ def menuVentana():
                                  fg_color="grey",
                                  text_font=("Helvetica", 12),
                                  text="5. Cargar biblioteca digital",
-                                 command=lambda: bibliotecaDigitalVent(visitantes))
+                                 command=lambda: bloqueoVisitantes(5, app))
     boton5.grid(row = 5, column=0, padx=5, pady=5, ipadx=15, ipady=10)
     boton6 = ctk.CTkButton(master=app,
                                  width=120,
@@ -486,7 +495,7 @@ def menuVentana():
                                  fg_color="grey",
                                  text_font=("Helvetica", 12),
                                  text="6. Dar de baja",
-                                 command=lambda: bloqueoImpAstros(6, app, diccAstros))
+                                 command=lambda: bloqueoImpAstros(6, app, diccAstros, visitantes))
     boton6.grid(row = 5, column=1, padx=5, pady=5, ipadx=15, ipady=10)
     boton7 = ctk.CTkButton(master=app,
                                  width=120,
