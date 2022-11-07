@@ -1,6 +1,6 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
 # Fecha de creación: 13/10/2022 11:30 am
-# Última modificación: 05/11/2022 10:27 pm
+# Última modificación: 06/11/2022 08:30 pm
 # Versión: 3.10.8
 
 # Importar libreías
@@ -11,6 +11,7 @@ from tkinter import messagebox
 import nasapy
 from datetime import date
 from names import *
+
 # Función archivos HTML
 def crearArchivoHtml(pNombre, pInfo):
     """
@@ -129,7 +130,7 @@ def crearDiccAstronomos(cantAstros, diccAstros):
         llavesAstro.pop(posAstro)
         valoresAstro.pop(posAstro)
         numAstro += 1
-        #print(diccAstros)
+    print(diccAstros)
     return diccAstros
 
 # Función 2. Crear un visitante
@@ -142,7 +143,7 @@ def crearVisitante(matrizvisitantes, cedula, nombre):
     """
     listavisitante=[cedula, nombre, [], [], True]
     matrizvisitantes.append(listavisitante)
-    #print(matrizvisitantes)
+    print(matrizvisitantes)
     return matrizvisitantes
 
 # Función 3. Crear BD de visitantes
@@ -155,11 +156,11 @@ def insertarVisitantes(matrizvisitantes, cant):
     """
     listavisitantes=[]
     for i in range(cant):
-        num=(random.randint(1, 999))+(10000*random.randint(1, 999))+(100000000*random.randint(1,9))
-        listavisitantes=[num, (get_first_name(), get_last_name(), get_last_name()), 
+        numCed=(random.randint(1, 999))+(10000*random.randint(1, 999))+(100000000*random.randint(1,9))
+        listavisitantes=[str(numCed), (get_first_name(), get_last_name(), get_last_name()), 
         [], [], bool(random.getrandbits(1))]
         matrizvisitantes.append(listavisitantes)
-    #print(matrizvisitantes)
+    print(matrizvisitantes)
     return matrizvisitantes
 
 # Función 4. Asignar astrónomos fans
@@ -194,10 +195,10 @@ def asignarAstroFans(pVisitantes, pAstronomos):
     """
     for visitante in pVisitantes:
         codAstros = obtenerListasLlaves(pAstronomos)
-        visitante[2] = asignarAstros(visitante[0]//100000000, codAstros) # Se le asinga un dict
+        visitante[2] = asignarAstros(int(visitante[0])//100000000, codAstros) # Se le asinga un dict
                                                                          # con códigos a cada 
                                                                          # visitante
-    #print(pVisitantes)
+    print(pVisitantes)
     return pVisitantes
 
 # Función 5. Cargar biblioteca principal
@@ -211,30 +212,38 @@ def importarDatosNasa():
     clave="f24nnkOORGnEmbG7B7Bp01g6jL4UXQKLRh1kFn6s"
     nasa = nasapy.Nasa(key=clave)
     datosNasa = []
-    for num in range(100):
+    for num in range(10):
         d = date(randint(2015,2021), randint(1, 12), randint(1,28)).strftime('%Y-%m-%d')
         try:
             apod= nasa.picture_of_the_day(date=d, hd=True)
             datosNasa.append((apod["title"], apod["date"], apod["explanation"], apod["media_type"], apod["url"]))
         except:
             continue
+    print(datosNasa)
     return datosNasa
 
-def asignarBibliotecaDigital(pNumUlt, datosNasa):
+def asignarBibliotecaDigital(pNumUlt, datosNasa, biblioteca):
     """
     Funcionalidad: retorna una lista con la cantidad de datos de la NASA igual
                    a pNumUlt
     Entradas: pNumUlt (int)
               datosNasa (list)
+              biblioteca (list)
     Salidas: datosNasaPersona (list)
     """
     cantDatosNasa = 1
     datosNasaPersona = []
+    datosNasaSave = datosNasa
+    if len(biblioteca) != 0:
+        return biblioteca
     while pNumUlt >= cantDatosNasa:
-        posNasa = randint(0, (len(datosNasa)-1))
-        datosNasaPersona.append(datosNasa[posNasa])
-        datosNasa.pop(posNasa)
-        cantDatosNasa += 1
+        try:
+            posNasa = randint(0, (len(datosNasaSave)-1))
+            datosNasaPersona.append(datosNasaSave[posNasa])
+            datosNasaSave.pop(posNasa)
+            cantDatosNasa += 1
+        except:
+            break
     return datosNasaPersona
 
 def bibliotecaDigital(matrizVisitantes, datosNasa):
@@ -244,9 +253,12 @@ def bibliotecaDigital(matrizVisitantes, datosNasa):
        datosNasa (list): contiene los datos de NASA
     S: matrizVisitante (list) (actualizada)
     """
+    cont = 1
     for visitante in matrizVisitantes:
-        visitante[3] = asignarBibliotecaDigital(visitante[0]%10, datosNasa)
-    #print(matrizVisitantes)
+        biblioteca = visitante[3]
+        visitante[3] = asignarBibliotecaDigital(int(visitante[0])%10, datosNasa, biblioteca)
+        print(cont)
+        cont +=1
     return matrizVisitantes
 
 # Función 6. Dar de baja
@@ -262,7 +274,7 @@ def darBajaVisit(pCedula, pVisitantes):
         if pCedula == visitante[0]:
             pVisitantes[posicion][4] = False # Para esa cédula, cambia el estado a False
             break
-    #print(pVisitantes)
+    print(pVisitantes)
     return pVisitantes
 
 # Funciones 7. Reportes
@@ -316,7 +328,7 @@ def reporteVisitante(pVisitante, pAstronomos):
               pAstronomos (dict)
     Salidas: resultado crearArchivoHtml("Reporte " + cedula, htmlVisit) (archivo HTML)
     """
-    cedula = str(pVisitante[0])
+    cedula = pVisitante[0]
     htmlVisit = ("<html>\n<head>\n<title> \nReporte " + cedula +
     "</title>\n</head> <body><h2>Reporte visitante" + "</h2>"
     "<h3>Cedula</h3> \n<p>"+ cedula +"</p>"

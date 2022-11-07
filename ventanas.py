@@ -1,6 +1,6 @@
 # Creado por: Ian Steven Coto Soto
 # Fecha de creación: 03/11/2022 11:00 am
-# Última modificación: 05/11/2022 10:27 pm
+# Última modificación: 06/11/2022 08:30 pm
 # Versión: 3.10.8
 
 # Importar librerías
@@ -15,8 +15,9 @@ from validaciones import *
 reportes = ["Perfil de un visitante", "Estadística de astrónomos",
                             "Mostrar biblioteca digital", "Reporte de astrónomos", 
                             "Visitantes dados de baja", "Recurso por tipo"]
+datosNasa = []                      
 datosNasa = importarDatosNasa()
-#datosNasa = importarDatosNasa() # Cuando se copien las funciones en los otros archivos, se descomenta                   
+print(len(datosNasa))          
 diccAstros = {}
 visitantes = []
 fuenteBotones = ("Helvetica", 10)
@@ -32,7 +33,10 @@ def limpiarDiccAstros(diccAstros):
     Entrada: diccAstros (dict)
     Salida: diccAstros (dict) (vacío)
     """
-    messagebox.showinfo("Astrónomos vaciados", "Se ha limpiado los astrónomos.")
+    if len(diccAstros) == 0:
+        messagebox.showerror("Astrónomos vacíos", "No ha importado astrónomos.")
+    else:
+        messagebox.showinfo("Astrónomos vaciados", "Se ha limpiado los astrónomos.")
     return diccAstros.clear()
 
 def impAstrosVent(ventanaMain):
@@ -188,7 +192,9 @@ def bibliotecaDigitalVent(matrizvisitantes, datosnasa):
     Salidas: resultado insertarrVisitantesAux 
     """
     messagebox.showinfo("Biblioteca Digital creada", "Se agregó la Biblioteca Digital a cada visitante")
+    print(len(datosnasa))
     bibliotecaDigital(matrizvisitantes, datosnasa)
+
 # Ventana 6. Dar de baja
 def confirmarBaja(pCedula):
     """
@@ -426,7 +432,7 @@ def devuelveReporte(pOpcion, ventanaMain):
     elif pOpcion == 2:
         messagebox.showinfo("Reporte creado", 
         "El reporte biblioteca digital ha sido creado.")
-        return reporteBiblioteca(visitantesLleno)
+        return reporteBiblioteca(visitantes)
     elif pOpcion == 3:
         return reporteAstrosRangoVent(diccAstros, ventanaMain)
     elif pOpcion == 4:

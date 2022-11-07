@@ -1,6 +1,6 @@
 # Creado por: Ian Steven Coto Soto
 # Fecha de creación: 04/11/2022 16:14 pm
-# Última modificación: 05/11/2022 10:53 pm
+# Última modificación: 06/11/2022 08:30 pm
 # Versión: 3.10.8
 
 # Importar librerías
@@ -13,7 +13,7 @@ def esVisitante(pCedula, pVisitantes):
     """
     Funcionalidad: comrpueba que la cédula esté en el registro de visitantes,
                    si lo está, retorna True
-    Entradas: pCedula (int)
+    Entradas: pCedula (str)
               pVisitantes (list)
     Salidas: True/False (bool)
     """
@@ -25,7 +25,7 @@ def esVisitante(pCedula, pVisitantes):
 def retornaVisitante(pCedula, pVisitantes):
     """
     Funcionalidad: devueleve al visitante según su cédula
-    Entradas: pCedula (int)
+    Entradas: pCedula (str)
               pVisitantes (list of lists)
     Salidas: visitante (list)
     """
@@ -53,22 +53,19 @@ def validaMensajeExito(pCedula, pVisitantes):
              pVisitantes (list)
     Salida: True/False (bool)
     """
-    if esCedula(pCedula) and esVisitante(int(pCedula), pVisitantes):
+    if esCedula(pCedula) and esVisitante(pCedula, pVisitantes):
         return True
     return False
 
 def validarNombre(nombre):
     """
     Funcionalidad: valida que el formato del nombre esté correcto
-    Entradas: nombre (tuple)
-    Salidas: nombre(tuple) o recibirNombreES()
+    Entradas: nombre (str)
+    Salidas: True/False (bool)
     """
-    nombre=list(nombre)
-    for i in nombre:
-        if re.findall("[^a-zA-ZáéíóúÁÉÍÓÚ]", i):
-            return False
+    if re.match("^(\s?[A-ZÁÉÍÓÚ][a-záéíóú]+){3}$", nombre) == None:
+        return False
     return True
-
 
 # Funciones auxiliares
 # Función 1. Importar astrotónomos
@@ -96,22 +93,20 @@ def recibirNombreAux(nombre):
     Entradas: nombre (str)
     Salidas: tuplanombre (tuple)
     """
-    listanombre=nombre.split(" ")
+    listanombre=nombre.strip().split(" ")
     tuplanombre=tuple(listanombre)
     return tuplanombre
 
 def validarCrearVisitantes(matrizvisitantes, cedula, nombre):
     """
     Funcionalidad: valida las entradas
-    Entradas: nombre (str), cedula (int), matrizvisitantes(list)
+    Entradas: nombre (str), cedula (str), matrizvisitantes(list)
     Salidas: resultado de crearVisitante
     """
     if esCedula(cedula)==False:
         return messagebox.showerror("Formato incorrecto cédula", "La cédula introducida tiene un formato incorrecto")
-    elif validarNombre(recibirNombreAux(nombre))==False:
+    elif validarNombre(nombre)==False:
         return messagebox.showerror("Formato incorrecto nombre", "El nombre, primero apellido o segundo apellido tiene carctéres no validos")
-    elif len(recibirNombreAux(nombre))!=3:
-        return messagebox.showerror("Falta información del nombre", "El nombre, primero apellido o segundo apellido hacen falta")
     elif esVisitante(cedula, matrizvisitantes):
         return messagebox.showerror("El visitante ya registrado", "El visitante con cedula "+cedula+" ya se encuentra registrado.")
     else:
@@ -174,12 +169,12 @@ def reporteVisitanteAux(pCedula, pVisitantes, pAstronomos):
     if not esCedula(pCedula):
         return messagebox.showerror("Número de cédula incorrecto", 
         "Introduzca un número de cédula de la forma X0XXX0XXX.")
-    elif not esVisitante(int(pCedula), pVisitantes):
+    elif not esVisitante(pCedula, pVisitantes):
         return messagebox.showerror("Visitante no registrado", 
         "Ingrese la cédula de un visitante registrado.")
     messagebox.showinfo("Reporte creado", 
         "Se ha creado el reporte del visitante " + pCedula + ".")
-    return reporteVisitante(retornaVisitante(int(pCedula), pVisitantes), pAstronomos)
+    return reporteVisitante(retornaVisitante(pCedula, pVisitantes), pAstronomos)
 
 # Estadísticas astrónomos
 """
