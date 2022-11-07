@@ -1,6 +1,6 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
 # Fecha de creación: 13/10/2022 11:30 am
-# Última modificación: 06/11/2022 08:30 pm
+# Última modificación: 06/11/2022 10:20 pm
 # Versión: 3.10.8
 
 # Importar libreías
@@ -202,7 +202,6 @@ def asignarAstroFans(pVisitantes, pAstronomos):
     return pVisitantes
 
 # Función 5. Cargar biblioteca principal
-
 def importarDatosNasa():
     """
     F: retorna una lista con 100 datos de la API de la NASA
@@ -212,38 +211,31 @@ def importarDatosNasa():
     clave="f24nnkOORGnEmbG7B7Bp01g6jL4UXQKLRh1kFn6s"
     nasa = nasapy.Nasa(key=clave)
     datosNasa = []
-    for num in range(10):
+    for num in range(100):
         d = date(randint(2015,2021), randint(1, 12), randint(1,28)).strftime('%Y-%m-%d')
         try:
             apod= nasa.picture_of_the_day(date=d, hd=True)
             datosNasa.append((apod["title"], apod["date"], apod["explanation"], apod["media_type"], apod["url"]))
         except:
             continue
+        print(num)
     print(datosNasa)
     return datosNasa
 
-def asignarBibliotecaDigital(pNumUlt, datosNasa, biblioteca):
+def asignarBibliotecaDigital(pNumUlt, datosNasa):
     """
     Funcionalidad: retorna una lista con la cantidad de datos de la NASA igual
                    a pNumUlt
     Entradas: pNumUlt (int)
               datosNasa (list)
-              biblioteca (list)
     Salidas: datosNasaPersona (list)
     """
     cantDatosNasa = 1
     datosNasaPersona = []
-    datosNasaSave = datosNasa
-    if len(biblioteca) != 0:
-        return biblioteca
     while pNumUlt >= cantDatosNasa:
-        try:
-            posNasa = randint(0, (len(datosNasaSave)-1))
-            datosNasaPersona.append(datosNasaSave[posNasa])
-            datosNasaSave.pop(posNasa)
-            cantDatosNasa += 1
-        except:
-            break
+        posNasa = randint(0, (len(datosNasa)-1))
+        datosNasaPersona.append(datosNasa[posNasa])
+        cantDatosNasa += 1
     return datosNasaPersona
 
 def bibliotecaDigital(matrizVisitantes, datosNasa):
@@ -255,8 +247,8 @@ def bibliotecaDigital(matrizVisitantes, datosNasa):
     """
     cont = 1
     for visitante in matrizVisitantes:
-        biblioteca = visitante[3]
-        visitante[3] = asignarBibliotecaDigital(int(visitante[0])%10, datosNasa, biblioteca)
+        if len(visitante[3]) == 0:
+            visitante[3] = asignarBibliotecaDigital(int(visitante[0])%10, datosNasa)
         print(cont)
         cont +=1
     return matrizVisitantes

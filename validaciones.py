@@ -1,6 +1,6 @@
-# Creado por: Ian Steven Coto Soto
-# Fecha de creación: 04/11/2022 16:14 pm
-# Última modificación: 06/11/2022 08:30 pm
+# Creado por: Ian Steven Coto Soto, Fabián Araya
+# Fecha de creación: 13/10/2022 11:30 am
+# Última modificación: 06/11/2022 10:20 pm
 # Versión: 3.10.8
 
 # Importar librerías
