@@ -8,7 +8,9 @@ from bs4 import BeautifulSoup
 import requests
 from random import *
 from tkinter import messagebox
-
+import nasapy
+from datetime import date
+from names import *
 # Función archivos HTML
 def crearArchivoHtml(pNombre, pInfo):
     """
@@ -127,7 +129,38 @@ def crearDiccAstronomos(cantAstros, diccAstros):
         llavesAstro.pop(posAstro)
         valoresAstro.pop(posAstro)
         numAstro += 1
+        #print(diccAstros)
     return diccAstros
+
+# Función 2. Crear un visitante
+
+def crearVisitante(matrizvisitantes, cedula, nombre):
+    """
+    Funcionalidad: Añade el nuevo visitante a la matriz existente
+    Entradas: matrizvisitantes(list), cedula (int), nombre (int)
+    Salidas: matrizvisitantes
+    """
+    listavisitante=[cedula, nombre, [], [], True]
+    matrizvisitantes.append(listavisitante)
+    #print(matrizvisitantes)
+    return matrizvisitantes
+
+# Función 3. Crear BD de visitantes
+
+def insertarVisitantes(matrizvisitantes, cant):
+    """
+    Funcionalidad: crea una matriz de visitantes
+    Entradas: matrizvisitantes (list), cant (int)
+    Salidas: matrizvisitantes (list)
+    """
+    listavisitantes=[]
+    for i in range(cant):
+        num=(random.randint(1, 999))+(10000*random.randint(1, 999))+(100000000*random.randint(1,9))
+        listavisitantes=[num, (get_first_name(), get_last_name(), get_last_name()), 
+        [], [], bool(random.getrandbits(1))]
+        matrizvisitantes.append(listavisitantes)
+    #print(matrizvisitantes)
+    return matrizvisitantes
 
 # Función 4. Asignar astrónomos fans
 def asignarAstros(pNumProvincia, codAstros):
@@ -164,7 +197,57 @@ def asignarAstroFans(pVisitantes, pAstronomos):
         visitante[2] = asignarAstros(visitante[0]//100000000, codAstros) # Se le asinga un dict
                                                                          # con códigos a cada 
                                                                          # visitante
+    #print(pVisitantes)
     return pVisitantes
+
+# Función 5. Cargar biblioteca principal
+
+def importarDatosNasa():
+    """
+    F: retorna una lista con 100 datos de la API de la NASA
+    E: N/A
+    S: datosNasa (list): contiene los datos
+    """
+    clave="f24nnkOORGnEmbG7B7Bp01g6jL4UXQKLRh1kFn6s"
+    nasa = nasapy.Nasa(key=clave)
+    datosNasa = []
+    for num in range(100):
+        d = date(randint(2015,2021), randint(1, 12), randint(1,28)).strftime('%Y-%m-%d')
+        try:
+            apod= nasa.picture_of_the_day(date=d, hd=True)
+            datosNasa.append((apod["title"], apod["date"], apod["explanation"], apod["media_type"], apod["url"]))
+        except:
+            continue
+    return datosNasa
+
+def asignarBibliotecaDigital(pNumUlt, datosNasa):
+    """
+    Funcionalidad: retorna una lista con la cantidad de datos de la NASA igual
+                   a pNumUlt
+    Entradas: pNumUlt (int)
+              datosNasa (list)
+    Salidas: datosNasaPersona (list)
+    """
+    cantDatosNasa = 1
+    datosNasaPersona = []
+    while pNumUlt >= cantDatosNasa:
+        posNasa = randint(0, (len(datosNasa)-1))
+        datosNasaPersona.append(datosNasa[posNasa])
+        datosNasa.pop(posNasa)
+        cantDatosNasa += 1
+    return datosNasaPersona
+
+def bibliotecaDigital(matrizVisitantes, datosNasa):
+    """
+    F: función que introduce los datos de la NASA a cada visitante
+    E: matrizVisitantes (list)
+       datosNasa (list): contiene los datos de NASA
+    S: matrizVisitante (list) (actualizada)
+    """
+    for visitante in matrizVisitantes:
+        visitante[3] = asignarBibliotecaDigital(visitante[0]%10, datosNasa)
+    #print(matrizVisitantes)
+    return matrizVisitantes
 
 # Función 6. Dar de baja
 def darBajaVisit(pCedula, pVisitantes):
@@ -179,6 +262,7 @@ def darBajaVisit(pCedula, pVisitantes):
         if pCedula == visitante[0]:
             pVisitantes[posicion][4] = False # Para esa cédula, cambia el estado a False
             break
+    #print(pVisitantes)
     return pVisitantes
 
 # Funciones 7. Reportes

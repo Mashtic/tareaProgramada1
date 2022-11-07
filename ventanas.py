@@ -15,7 +15,7 @@ from validaciones import *
 reportes = ["Perfil de un visitante", "Estadística de astrónomos",
                             "Mostrar biblioteca digital", "Reporte de astrónomos", 
                             "Visitantes dados de baja", "Recurso por tipo"]
-datosNasa = []
+datosNasa = importarDatosNasa()
 #datosNasa = importarDatosNasa() # Cuando se copien las funciones en los otros archivos, se descomenta                   
 diccAstros = {}
 visitantes = []
@@ -87,7 +87,108 @@ def impAstrosVent(ventanaMain):
                                  text="Regresar",
                                  command=lambda: impAstrosVent.destroy()) # Sale de la ventana
     botonSalir.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
+# ventana 2. Crear un visitante
 
+def crearVisitanteVent(ventanaMain, matrizvisitantes):
+    """
+    Funcionalidad: Crea la ventana para la función de crear visitante, con los botones y opciones para ingresar los datos requeridos.
+    Entradas: ventanamain, matrizvisitante(list)
+    Salidas: resultado validarCrearVisitantes
+    """
+    crearVisitanteVent=ctk.CTkToplevel(ventanaMain)
+    crearVisitanteVent.geometry("400x200")
+    crearVisitanteVent.title("2. Crear Visitante")
+    titulo= ctk.CTkLabel(crearVisitanteVent, text="Crear Visitante", text_font=("Helvetica", 20))
+    titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
+    subtitulo =ctk.CTkLabel(crearVisitanteVent,
+    text="Digite el número de cédula y el nombre",
+    text_font=("Helvetica", 8))
+    subtitulo.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
+    cedula = ctk.CTkEntry(master=crearVisitanteVent,
+                               placeholder_text="ej. 305260967",
+                               width=125,
+                               height=35,
+                               border_width=2,
+                               corner_radius=10)
+    cedula.place(relx=0.5, rely=0.45, anchor=tk.CENTER)
+    nombre=ctk.CTkEntry(master=crearVisitanteVent,
+                               placeholder_text="ej. Fabian Araya Ortega",
+                               width=125,
+                               height=35,
+                               border_width=2,
+                               corner_radius=10)
+    nombre.place(relx=0.30, rely=0.7, anchor=tk.CENTER)
+    botonContinuar= ctk.CTkButton(master= crearVisitanteVent, 
+                                width=110,
+                                height=32,
+                                corner_radius=8,
+                                fg_color="grey",
+                                text_font=("Helvetica", 14),
+                                text="Continuar",
+                                command=lambda: validarCrearVisitantes(matrizvisitantes, cedula.get(), nombre.get()))
+    botonContinuar.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
+    botonSalir = ctk.CTkButton(master=crearVisitanteVent,
+                                 width=120,
+                                 height=32,
+                                 corner_radius=8,
+                                 fg_color="grey",
+                                 text_font=("Helvetica", 12),
+                                 text="Regresar",
+                                 command=lambda: crearVisitanteVent.destroy())
+    botonSalir.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
+
+# ventana 3. Crear base de datos de visitantes
+
+def crearBDVisitanteVent(ventanaMain, matrizvisitantes):
+    """
+    Funcionalidad: Crea la ventana para la función de crear base de datos de los visitantes, con los botones y opciones para ingresar los datos requeridos.
+    Entradas: ventanamain, matrizvisitante(list)
+    Salidas: resultado insertarrVisitantesAux 
+    """
+    crearBDVisitanteVent=ctk.CTkToplevel(ventanaMain)
+    crearBDVisitanteVent.geometry("400x200")
+    crearBDVisitanteVent.title("2. Crear Base de datos de visitantes")
+    titulo= ctk.CTkLabel(crearBDVisitanteVent, text="Crear Base de datos de visitantes", text_font=("Helvetica", 20))
+    titulo.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
+    subtitulo =ctk.CTkLabel(crearBDVisitanteVent,
+    text="Digite la cantidad de visitantes",
+    text_font=("Helvetica", 8))
+    subtitulo.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
+    cant = ctk.CTkEntry(master=crearBDVisitanteVent,
+                               placeholder_text="0 < cantidad <=1000",
+                               width=125,
+                               height=35,
+                               border_width=2,
+                               corner_radius=10)
+    cant.place(relx=0.5, rely=0.45, anchor=tk.CENTER)
+    botonContinuar= ctk.CTkButton(master= crearBDVisitanteVent, 
+                                width=110,
+                                height=32,
+                                corner_radius=8,
+                                fg_color="grey",
+                                text_font=("Helvetica", 14),
+                                text="Continuar",
+                                command=lambda: insertarVisitantesAux(matrizvisitantes, cant.get()))
+    botonContinuar.place(relx=0.70, rely=0.7, anchor=tk.CENTER)
+    botonSalir = ctk.CTkButton(master=crearBDVisitanteVent,
+                                 width=120,
+                                 height=32,
+                                 corner_radius=8,
+                                 fg_color="grey",
+                                 text_font=("Helvetica", 12),
+                                 text="Regresar",
+                                 command=lambda: crearBDVisitanteVent.destroy())
+    botonSalir.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
+
+#5 Ventana. BibliotecaDigital
+def bibliotecaDigitalVent(matrizvisitantes, datosnasa):
+    """
+    Funcionalidad: Crea la ventana para la función de crear base de datos de los visitantes, con los botones y opciones para ingresar los datos requeridos.
+    Entradas: ventanamain, matrizvisitante(list)
+    Salidas: resultado insertarrVisitantesAux 
+    """
+    messagebox.showinfo("Biblioteca Digital creada", "Se agregó la Biblioteca Digital a cada visitante")
+    bibliotecaDigital(matrizvisitantes, datosnasa)
 # Ventana 6. Dar de baja
 def confirmarBaja(pCedula):
     """
@@ -385,17 +486,18 @@ def bloqueoImpAstros(pOpcion, ventMain, diccAstros):
              diccAstros (dict)
     Salida: retorna la función de acuerdo a la opción
     """
+    global visitantes
     if len(diccAstros) == 0:
         return messagebox.showinfo("Bloqueo importar astrónomos", 
         "Debe primero importar los astrónomos para acceder a esta opción.")
     elif pOpcion == 2:
-        return 2 # Función de cada uno
+        return crearVisitanteVent(ventMain, visitantes)
     elif pOpcion == 3:
-        return 3
+        return crearBDVisitanteVent(ventMain, visitantes)
     else:
         return darBajaVent(ventMain)
 
-def bloqueoVisitantes(pOpcion, ventMain, visitante):
+def bloqueoVisitantes(pOpcion, ventMain):
     """
     Funcionalidad: bloquea los botones 4, 5 y 7, si el 2 y 3
                    no ha sido activado o el diccAstros está vacío
@@ -403,8 +505,8 @@ def bloqueoVisitantes(pOpcion, ventMain, visitante):
              pOpcion (int)
     Salida: retorna la función de acuerdo a la opción
     """
-    global diccAstros, visitantes
-    if len(visitante) == 0:
+    global diccAstros, visitantes, datosNasa
+    if len(visitantes) == 0:
         messagebox.showinfo("Bloqueo visitantes", 
         "Debe primero crear los visitantes del botón 2 y 3.")
     elif pOpcion == 4:
@@ -412,7 +514,7 @@ def bloqueoVisitantes(pOpcion, ventMain, visitante):
         "Los astrónomos han sido agregados exitosamente.")
         return asignarAstroFans(visitantes, diccAstros)
     elif pOpcion == 5:
-        return 5
+        return bibliotecaDigitalVent(visitantes, datosNasa)
     else:
         return reportesVent(ventMain)
 
