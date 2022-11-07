@@ -53,7 +53,10 @@ def validaMensajeExito(pCedula, pVisitantes):
              pVisitantes (list)
     Salida: True/False (bool)
     """
-    if esCedula(pCedula) and esVisitante(pCedula, pVisitantes):
+    visitante = retornaVisitante(pCedula, pVisitantes)
+    print(visitante) 
+    if (esCedula(pCedula) and esVisitante(pCedula, pVisitantes) and 
+    visitante[4] == True):
         return True
     return False
 
@@ -155,6 +158,9 @@ def darBajaVisitAux(pCedula, pVisitantes):
     elif not esVisitante(pCedula, pVisitantes):
         return messagebox.showerror("Visitante no registrado", 
         "Ingrese la cédula de un visitante registrado.")
+    elif (retornaVisitante(pCedula, pVisitantes))[4] == False:
+        return messagebox.showerror("Visitante ya dado de baja", 
+        "El visitante ya fue dado de baja previamente.")
     return darBajaVisit(pCedula, pVisitantes)
 
 # Función 7. Reportes
@@ -210,7 +216,7 @@ def reporteAstrosRangoAux(pAstronomos, pPrimerAnno, pSegundoAnno):
     elif int(pSegundoAnno) < 0 or int(pSegundoAnno) > 2022:
         return messagebox.showerror("Año incorrecto", 
         "El año debe ser mayor a 0 o menor a 2022.")
-    elif not (pPrimerAnno < pSegundoAnno):
+    elif not (int(pPrimerAnno) < int(pSegundoAnno)):
         return messagebox.showerror("Años incorrectos", 
         "El segundo año debe ser mayor al primero.")
     messagebox.showinfo("Reporte creado", 
